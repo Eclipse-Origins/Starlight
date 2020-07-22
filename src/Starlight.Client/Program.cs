@@ -11,6 +11,7 @@ namespace Starlight.Client
         private static int ImageFlags = (int)(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG);
 
         static void Main(string[] args) {
+
             if (SDL_Init(SDL_INIT_VIDEO) < 0) {
                 throw new Exception($"SDL could not initialize! SDL_Error: {SDL_GetError()}");
             }
@@ -34,8 +35,13 @@ namespace Starlight.Client
 
             var image = SDL_CreateTextureFromSurface(renderer, surfacePtr);
 
+
             var isRunning = true;
             while (isRunning) {
+
+                // Connect to the server, need to move this!
+                connect();
+
                 while (SDL_PollEvent(out var e) != 0) {
                     switch (e.type) {
                         case SDL_EventType.SDL_QUIT:
@@ -82,5 +88,31 @@ namespace Starlight.Client
             IMG_Quit();
             SDL_Quit();
         }
+
+        static void connect()
+        {
+            // create and connect the client
+            Telepathy.Client client = new Telepathy.Client();
+            client.Connect("localhost", 1337);
+
+            // grab all new messages. do this in your Update loop.
+            Telepathy.Message msg;
+            while (client.GetNextMessage(out msg))
+            {
+                switch (msg.eventType)
+                {
+                    case Telepathy.EventType.Connected:
+                        Console.WriteLine("Connected");
+                        break;
+                    case Telepathy.EventType.Data:
+                        Console.WriteLine("Data: " + BitConverter.ToString(msg.data));
+                        break;
+                    case Telepathy.EventType.Disconnected:
+                        Console.WriteLine("Disconnected");
+                        break;
+                }
+            }
+        }
+
     }
 }
