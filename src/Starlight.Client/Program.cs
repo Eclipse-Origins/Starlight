@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using Starlight.Client.Rendering;
 using System;
 using System.IO;
 using static SDL2.SDL;
@@ -29,10 +30,7 @@ namespace Starlight.Client
 
             var workingDirectory = Directory.GetCurrentDirectory();
 
-            var surfacePtr = IMG_Load(Path.Combine(workingDirectory, "Assets", "graphics", "items", "1.png"));
-            var surface = surfacePtr.AsStruct<SDL_Surface>();
-
-            var image = SDL_CreateTextureFromSurface(renderer, surfacePtr);
+            var surface = Surface.Load(renderer, Path.Combine(workingDirectory, "Assets", "graphics", "items", "1.png"));
 
             var isRunning = true;
             while (isRunning) {
@@ -62,19 +60,19 @@ namespace Starlight.Client
                 {
                     x = 0,
                     y = 0,
-                    w = surface.w,
-                    h = surface.h
+                    w = surface.Width,
+                    h = surface.Height
                 };
 
                 var dstRect = new SDL_Rect()
                 {
                     x = 200,
                     y = 200,
-                    w = surface.w,
-                    h = surface.h
+                    w = surface.Width,
+                    h = surface.Height
                 };
 
-                SDL_RenderCopy(renderer, image, ref srcRect, ref dstRect);
+                SDL_RenderCopy(renderer, surface.TextureHandle, ref srcRect, ref dstRect);
 
                 SDL_RenderPresent(renderer);
             }
