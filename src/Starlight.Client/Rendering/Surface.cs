@@ -26,9 +26,9 @@ namespace Starlight.Client.Rendering
             this.Height = surface.h;
         }
 
-        public static Surface Load(IntPtr renderer, string filePath) {
+        public static Surface Load(Renderer renderer, string filePath) {
             var surfaceHandle = IMG_Load(filePath);
-            var textureHandle = SDL_CreateTextureFromSurface(renderer, surfaceHandle);
+            var textureHandle = SDL_CreateTextureFromSurface(renderer.Handle, surfaceHandle);
 
             return new Surface(surfaceHandle, textureHandle);
         }

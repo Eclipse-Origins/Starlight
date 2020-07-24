@@ -2,6 +2,7 @@
 using Starlight.Client.Rendering;
 using System;
 using System.IO;
+
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 
@@ -9,108 +10,15 @@ namespace Starlight.Client
 {
     class Program
     {
-        private static int ImageFlags = (int)(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG);
 
         static void Main(string[] args) {
-
-            if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-                throw new Exception($"SDL could not initialize! SDL_Error: {SDL_GetError()}");
-            }
-
-            var result = IMG_Init((IMG_InitFlags)ImageFlags);
-            if ((result & ImageFlags) != ImageFlags) {
-                throw new Exception(SDL_GetError());
-            }
-
-            var window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WindowFlags.SDL_WINDOW_SHOWN);
-            if (window == IntPtr.Zero) {
-                throw new Exception($"Window could not be created! SDL_Error: {SDL_GetError()}");
-            }
-
-            var renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-
             var workingDirectory = Directory.GetCurrentDirectory();
 
-            var surface = Surface.Load(renderer, Path.Combine(workingDirectory, "Assets", "graphics", "items", "1.png"));
+            var game = new StarlightGame(workingDirectory);
 
+            game.Connect();
 
-            var isRunning = true;
-            while (isRunning) {
-
-                // Connect to the server, need to move this!
-                connect();
-
-                while (SDL_PollEvent(out var e) != 0) {
-                    switch (e.type) {
-                        case SDL_EventType.SDL_QUIT:
-                            isRunning = false;
-                            break;
-                    }
-                }
-
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-                SDL_RenderClear(renderer);
-
-                var rectangle = new SDL_Rect()
-                {
-                    x = 10,
-                    y = 10,
-                    w = 100,
-                    h = 100
-                };
-
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderFillRect(renderer, ref rectangle);
-
-                var srcRect = new SDL_Rect()
-                {
-                    x = 0,
-                    y = 0,
-                    w = surface.Width,
-                    h = surface.Height
-                };
-
-                var dstRect = new SDL_Rect()
-                {
-                    x = 200,
-                    y = 200,
-                    w = surface.Width,
-                    h = surface.Height
-                };
-
-                SDL_RenderCopy(renderer, surface.TextureHandle, ref srcRect, ref dstRect);
-
-                SDL_RenderPresent(renderer);
-            }
-
-            IMG_Quit();
-            SDL_Quit();
+            game.Run();
         }
-
-        static void connect()
-        {
-            // create and connect the client
-            Telepathy.Client client = new Telepathy.Client();
-            client.Connect("localhost", 1337);
-
-            // grab all new messages. do this in your Update loop.
-            Telepathy.Message msg;
-            while (client.GetNextMessage(out msg))
-            {
-                switch (msg.eventType)
-                {
-                    case Telepathy.EventType.Connected:
-                        Console.WriteLine("Connected");
-                        break;
-                    case Telepathy.EventType.Data:
-                        Console.WriteLine("Data: " + BitConverter.ToString(msg.data));
-                        break;
-                    case Telepathy.EventType.Disconnected:
-                        Console.WriteLine("Disconnected");
-                        break;
-                }
-            }
-        }
-
     }
 }

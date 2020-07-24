@@ -23,10 +23,7 @@ namespace Starlight.Server
 
             var isRunning = true;
             while (isRunning) {
-
-                // Update loop
-                Telepathy.Message msg;
-                while (server.GetNextMessage(out msg)) {
+                while (server.GetNextMessage(out var msg)) {
                     switch (msg.eventType) {
                         case Telepathy.EventType.Connected:
                             Console.WriteLine(msg.connectionId + " Connected");

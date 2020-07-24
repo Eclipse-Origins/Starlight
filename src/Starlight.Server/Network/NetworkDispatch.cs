@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Starlight.Network;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Starlight.Server.Network
 {
-    public class NetworkDispatch
+    public class NetworkDispatch : AbstractNetworkDispatch<RequestContext>
     {
         private readonly Configuration configuration;
 
@@ -12,14 +13,8 @@ namespace Starlight.Server.Network
             this.configuration = configuration;
         }
 
-        private RequestContext BuildRequestContext() {
+        protected override RequestContext BuildRequestContext() {
             return new RequestContext(configuration);
-        }
-
-        public void HandleData(int connectionId, byte[] data) {
-            using (var requestContext = BuildRequestContext()) {
-
-            }
         }
     }
 }
