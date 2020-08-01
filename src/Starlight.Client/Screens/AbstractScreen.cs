@@ -23,5 +23,8 @@ namespace Starlight.Client.Screens
 
         public virtual void RenderFrame(RenderContext renderContext) {
         }
+
+        public virtual void RenderUIFrame(RenderContext renderContext) {
+        }
     }
 }

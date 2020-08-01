@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using ImGuiNET;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Network;
@@ -16,6 +17,7 @@ namespace Starlight.Client
         private readonly GraphicsDeviceManager graphics;
 
         private readonly NetworkDispatch networkDispatch;
+        private ImGuiRenderer imGuiRenderer;
 
         public bool IsRunning { get; private set; }
 
@@ -28,6 +30,7 @@ namespace Starlight.Client
         public StarlightGame(string workingDirectory) {
             this.graphics = new GraphicsDeviceManager(this);
 
+
             this.ResourceLocator = new ResourceLocator(workingDirectory);
             this.NetworkClient = new Telepathy.Client();
 
@@ -39,6 +42,9 @@ namespace Starlight.Client
 
         protected override void Initialize() {
             base.Initialize();
+
+            this.imGuiRenderer = new ImGuiRenderer(this);
+            this.imGuiRenderer.RebuildFontAtlas();
 
             ChangeScreen<SplashScreen>();
         }
@@ -77,17 +83,33 @@ namespace Starlight.Client
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            if (RenderContext != null) {
-                RenderContext.SpriteBatch.Begin();
-
-                if (Screen != null) {
-                    Screen.RenderFrame(RenderContext);
-                }
-
-                RenderContext.SpriteBatch.End();
+            if (RenderContext == null) {
+                return;
             }
+
+            GraphicsDevice.Clear(Color.Black);
+
+            if (Screen != null) {
+                imGuiRenderer.BeforeLayout(gameTime);
+
+                ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero);
+                ImGui.SetNextWindowSize(new System.Numerics.Vector2(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height));
+                ImGui.Begin(string.Empty, ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+
+                Screen.RenderUIFrame(RenderContext);
+
+                ImGui.End();
+
+                imGuiRenderer.AfterLayout();
+            }
+
+            RenderContext.SpriteBatch.Begin();
+
+            if (Screen != null) {
+                Screen.RenderFrame(RenderContext);
+            }
+
+            RenderContext.SpriteBatch.End();
 
             base.Draw(gameTime);
         }

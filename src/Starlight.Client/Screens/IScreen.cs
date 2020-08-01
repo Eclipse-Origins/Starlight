@@ -12,6 +12,7 @@ namespace Starlight.Client.Screens
         void PrepareResources(GraphicsDevice graphicsDevice);
 
         void Update(GameTime gameTime);
+        void RenderUIFrame(RenderContext renderContext);
         void RenderFrame(RenderContext renderContext);
     }
 }

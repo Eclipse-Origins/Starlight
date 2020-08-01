@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ImGuiNET;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Rendering;
 using System;
@@ -10,6 +11,8 @@ namespace Starlight.Client.Screens
     public class SplashScreen : AbstractScreen
     {
         Texture2D surface;
+
+        int y = 0;
 
         public SplashScreen(ScreenContext screenContext) : base(screenContext) {
         }
@@ -23,7 +26,18 @@ namespace Starlight.Client.Screens
         public override void RenderFrame(RenderContext renderContext) {
             base.RenderFrame(renderContext);
 
-            renderContext.SpriteBatch.Draw(surface, new Microsoft.Xna.Framework.Vector2(100, 100), Color.White);
+            renderContext.SpriteBatch.Draw(surface, new Microsoft.Xna.Framework.Vector2(300, y), Color.White);
+        }
+
+        public override void RenderUIFrame(RenderContext renderContext) {
+            base.RenderUIFrame(renderContext);
+
+            ImGui.Text("Hello, world!");
+
+            var testButton = ImGui.Button("Move it down", new System.Numerics.Vector2(200, 50));
+            if (testButton) {
+                y += 50;
+            }
         }
     }
 }
