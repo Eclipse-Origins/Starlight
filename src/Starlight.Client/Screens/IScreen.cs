@@ -1,4 +1,6 @@
-﻿using Starlight.Client.Rendering;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Starlight.Client.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +9,9 @@ namespace Starlight.Client.Screens
 {
     public interface IScreen
     {
-        void PrepareResources(Renderer renderer);
+        void PrepareResources(GraphicsDevice graphicsDevice);
 
-        void Update();
+        void Update(GameTime gameTime);
         void RenderFrame(RenderContext renderContext);
     }
 }
