@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Rendering;
+using Starlight.Client.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Starlight.Client.Screens
 {
     public interface IScreen
     {
-        MyraUI.Grid RootUI { get; }
+        StarlightGrid RootUI { get; }
 
         void PrepareResources(GraphicsDevice graphicsDevice);
 

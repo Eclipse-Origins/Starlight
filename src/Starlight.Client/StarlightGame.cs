@@ -106,7 +106,7 @@ namespace Starlight.Client
         }
 
         public void ChangeScreen<TScreen>() where TScreen : IScreen {
-            var screenContext = new ScreenContext(ResourceLocator);
+            var screenContext = new ScreenContext(this, ResourceLocator);
 
             var screen = (IScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
 

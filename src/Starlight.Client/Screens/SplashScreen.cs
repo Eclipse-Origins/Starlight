@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D.UI;
 using Starlight.Client.Rendering;
+using Starlight.Client.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Starlight.Client.Screens
         public SplashScreen(ScreenContext screenContext) : base(screenContext) {
         }
 
-        protected override void OnLayout(Grid rootUI) {
+        protected override void OnLayout(StarlightGrid rootUI) {
             base.OnLayout(rootUI);
 
             rootUI.ShowGridLines = true;
@@ -43,7 +44,23 @@ namespace Starlight.Client.Screens
             };
             rootUI.Widgets.Add(button);
 
+            var secondButton = new TextButton()
+            {
+                GridColumn = 1,
+                GridRow = 0,
+                Text = "Main Menu",
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            rootUI.Widgets.Add(secondButton);
+
+            secondButton.Click += SecondButton_Click;
+
             button.Click += Button_Click;
+        }
+
+        private void SecondButton_Click(object sender, EventArgs e) {
+            ScreenContext.ChangeScreen<MainMenuScreen>();
         }
 
         private void Button_Click(object sender, EventArgs e) {

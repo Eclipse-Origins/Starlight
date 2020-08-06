@@ -7,10 +7,16 @@ namespace Starlight.Client.Screens
 {
     public class ScreenContext
     {
+        public StarlightGame Game { get; }
         public ResourceLocator ResourceLocator { get; }
 
-        public ScreenContext(ResourceLocator resourceLocator) {
+        public ScreenContext(StarlightGame game, ResourceLocator resourceLocator) {
+            this.Game = game;
             this.ResourceLocator = resourceLocator;
+        }
+
+        public void ChangeScreen<TScreen>() where TScreen : IScreen {
+            Game.ChangeScreen<TScreen>();
         }
     }
 }

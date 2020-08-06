@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Rendering;
+using Starlight.Client.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,20 +12,23 @@ namespace Starlight.Client.Screens
 {
     public abstract class AbstractScreen : IScreen
     {
-        public MyraUI.Grid RootUI { get; }
+        public StarlightGrid RootUI { get; }
         public ScreenContext ScreenContext { get; }
 
         public AbstractScreen(ScreenContext screenContext) {
             this.ScreenContext = screenContext;
 
-            this.RootUI = new MyraUI.Grid();
+            this.RootUI = new StarlightGrid()
+            {
+                ShowGridLines = false
+            };
         }
 
         public void Layout() {
             OnLayout(this.RootUI);
         }
 
-        protected virtual void OnLayout(MyraUI.Grid rootUI) {
+        protected virtual void OnLayout(StarlightGrid rootUI) {
         }
 
         public virtual void PrepareResources(GraphicsDevice graphicsDevice) {
