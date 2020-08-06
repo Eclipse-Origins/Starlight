@@ -18,10 +18,7 @@ namespace Starlight.Client.Screens
         public AbstractScreen(ScreenContext screenContext) {
             this.ScreenContext = screenContext;
 
-            this.RootUI = new StarlightGrid()
-            {
-                ShowGridLines = false
-            };
+            this.RootUI = new StarlightGrid();
         }
 
         public void Layout() {
