@@ -1,0 +1,14 @@
+﻿<Project>
+    <Grid>
+        <Grid.ColumnsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Part" />
+        </Grid.ColumnsProportions>
+        <Grid.RowsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Part" />
+        </Grid.RowsProportions>
+        <Label Text="Hello, world!" />
+        <TextButton Id="mainMenuButton" GridColumn="1" GridRow="1" Text="Main Menu" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+</Project>

@@ -11,6 +11,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Screens\MainMenuScreen.xml" />
+      <None Remove="Screens\SplashScreen.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Screens\MainMenuScreen.xml" />
+      <EmbeddedResource Include="Screens\SplashScreen.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Starlight\Starlight.csproj" />
     </ItemGroup>
 
