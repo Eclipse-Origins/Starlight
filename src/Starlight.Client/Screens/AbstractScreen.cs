@@ -5,14 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using MyraUI = Myra.Graphics2D.UI;
+
 namespace Starlight.Client.Screens
 {
     public abstract class AbstractScreen : IScreen
     {
+        public MyraUI.Grid RootUI { get; }
         public ScreenContext ScreenContext { get; }
 
         public AbstractScreen(ScreenContext screenContext) {
             this.ScreenContext = screenContext;
+
+            this.RootUI = new MyraUI.Grid();
+        }
+
+        public void Layout() {
+            OnLayout(this.RootUI);
+        }
+
+        protected virtual void OnLayout(MyraUI.Grid rootUI) {
         }
 
         public virtual void PrepareResources(GraphicsDevice graphicsDevice) {
@@ -21,10 +33,18 @@ namespace Starlight.Client.Screens
         public virtual void Update(GameTime gameTime) {
         }
 
-        public virtual void RenderFrame(RenderContext renderContext) {
+        public void RenderBackgroundFrame(RenderContext renderContext) {
+            OnRenderBackgroundFrame(renderContext);
         }
 
-        public virtual void RenderUIFrame(RenderContext renderContext) {
+        protected virtual void OnRenderBackgroundFrame(RenderContext renderContext) {
+        }
+
+        public void RenderForegroundFrame(RenderContext renderContext) {
+            OnRenderForegroundFrame(renderContext);
+        }
+
+        protected virtual void OnRenderForegroundFrame(RenderContext renderContext) {
         }
     }
 }

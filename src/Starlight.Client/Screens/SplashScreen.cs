@@ -1,6 +1,6 @@
-﻿using ImGuiNET;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Myra.Graphics2D.UI;
 using Starlight.Client.Rendering;
 using System;
 using System.Collections.Generic;
@@ -17,27 +17,47 @@ namespace Starlight.Client.Screens
         public SplashScreen(ScreenContext screenContext) : base(screenContext) {
         }
 
+        protected override void OnLayout(Grid rootUI) {
+            base.OnLayout(rootUI);
+
+            rootUI.ShowGridLines = true;
+            rootUI.ColumnsProportions.Add(new Proportion(ProportionType.Part));
+            rootUI.ColumnsProportions.Add(new Proportion(ProportionType.Part));
+            rootUI.RowsProportions.Add(new Proportion(ProportionType.Part));
+            rootUI.RowsProportions.Add(new Proportion(ProportionType.Part));
+
+            var helloWorld = new Label
+            {
+                Id = "label",
+                Text = "Hello, World!"
+            };
+            rootUI.Widgets.Add(helloWorld);
+
+            var button = new TextButton
+            {
+                GridColumn = 0,
+                GridRow = 1,
+                Text = "Button",
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            rootUI.Widgets.Add(button);
+
+            button.Click += Button_Click;
+        }
+
+        private void Button_Click(object sender, EventArgs e) {
+            y += 10;
+        }
+
         public override void PrepareResources(GraphicsDevice graphicsDevice) {
             base.PrepareResources(graphicsDevice);
 
             surface = Texture2D.FromFile(graphicsDevice, ScreenContext.ResourceLocator.LocateAssetPath("graphics", "items", "1.png"));
         }
 
-        public override void RenderFrame(RenderContext renderContext) {
-            base.RenderFrame(renderContext);
-
+        protected override void OnRenderForegroundFrame(Rendering.RenderContext renderContext) {
             renderContext.SpriteBatch.Draw(surface, new Microsoft.Xna.Framework.Vector2(300, y), Color.White);
-        }
-
-        public override void RenderUIFrame(RenderContext renderContext) {
-            base.RenderUIFrame(renderContext);
-
-            ImGui.Text("Hello, world!");
-
-            var testButton = ImGui.Button("Move it down", new System.Numerics.Vector2(200, 50));
-            if (testButton) {
-                y += 50;
-            }
         }
     }
 }
