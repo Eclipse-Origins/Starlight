@@ -40,6 +40,8 @@ namespace Starlight.Client
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            Debugging.UIDebugging = false;
         }
 
         protected override void Initialize() {

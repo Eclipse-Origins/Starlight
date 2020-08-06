@@ -21,7 +21,6 @@ namespace Starlight.Client.Screens
         protected override void OnLayout(StarlightGrid rootUI) {
             base.OnLayout(rootUI);
 
-            rootUI.ShowGridLines = true;
             rootUI.ColumnsProportions.Add(new Proportion(ProportionType.Part));
             rootUI.ColumnsProportions.Add(new Proportion(ProportionType.Part));
             rootUI.RowsProportions.Add(new Proportion(ProportionType.Part));

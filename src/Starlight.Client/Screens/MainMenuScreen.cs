@@ -24,7 +24,7 @@ namespace Starlight.Client.Screens
             rootUI.RowsProportions.Add(new Proportion(ProportionType.Part));
             rootUI.RowsProportions.Add(new Proportion(ProportionType.Part));
 
-            var loginPanel = new Grid()
+            var loginPanel = new StarlightGrid()
             {
                 Background = new SolidBrush(Color.Gray),
                 GridColumn = 1,
