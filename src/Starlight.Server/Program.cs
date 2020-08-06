@@ -36,7 +36,6 @@ namespace Starlight.Server
                             break;
                     }
                 }
-
             }
         }
 

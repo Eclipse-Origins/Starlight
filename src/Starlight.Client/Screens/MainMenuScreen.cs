@@ -19,6 +19,11 @@ namespace Starlight.Client.Screens
 
             public Grid LoginPanel { get; set; }
             public Grid RegisterPanel { get; set; }
+
+            public TextBox RegisterUsernameTextBox { get; set; }
+            public TextBox RegisterPasswordTextBox { get; set; }
+            public TextBox RegisterConfirmPasswordTextBox { get; set; }
+            public TextButton RegisterButton { get; set; }
         }
 
         public MainMenuScreen(ScreenContext screenContext) : base(screenContext) {
@@ -29,6 +34,16 @@ namespace Starlight.Client.Screens
 
             this.UI.LoginCommandButton.Click += LoginCommandButton_Click;
             this.UI.RegisterCommandButton.Click += RegisterCommandButton_Click;
+
+            this.UI.RegisterButton.Click += RegisterButton_Click;
+        }
+
+        private void RegisterButton_Click(object sender, EventArgs e) {
+            var username = UI.RegisterUsernameTextBox.Text;
+            var password = UI.RegisterPasswordTextBox.Text;
+            var confirmPassword = UI.RegisterConfirmPasswordTextBox.Text;
+
+
         }
 
         private void RegisterCommandButton_Click(object sender, EventArgs e) {
