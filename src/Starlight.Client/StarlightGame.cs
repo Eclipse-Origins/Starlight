@@ -6,6 +6,7 @@ using Starlight.Client.Network;
 using Starlight.Client.Rendering;
 using Starlight.Client.Resources;
 using Starlight.Client.Screens;
+using Starlight.Network;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Starlight.Client
 
         public ResourceLocator ResourceLocator { get; }
         public Rendering.RenderContext RenderContext { get; private set; }
-        public Telepathy.Client NetworkClient { get; }
+        public StarlightClient NetworkClient { get; }
 
         public IScreen Screen { get; private set; }
 
@@ -32,7 +33,7 @@ namespace Starlight.Client
             this.graphics = new GraphicsDeviceManager(this);
 
             this.ResourceLocator = new ResourceLocator(workingDirectory);
-            this.NetworkClient = new Telepathy.Client();
+            this.NetworkClient = new StarlightClient(new Telepathy.Client());
 
             this.networkDispatch = new NetworkDispatch();
 
@@ -60,13 +61,13 @@ namespace Starlight.Client
         }
 
         public void Connect() {
-            NetworkClient.Connect("localhost", 1337);
+            NetworkClient.Client.Connect("localhost", 1338);
         }
 
         protected override void Update(GameTime gameTime) {
             base.Update(gameTime);
 
-            while (NetworkClient.GetNextMessage(out var networkMessage)) {
+            while (NetworkClient.Client.GetNextMessage(out var networkMessage)) {
                 switch (networkMessage.eventType) {
                     case Telepathy.EventType.Connected:
                         Console.WriteLine("Connected");
@@ -108,7 +109,7 @@ namespace Starlight.Client
         }
 
         public void ChangeScreen<TScreen>() where TScreen : IScreen {
-            var screenContext = new ScreenContext(this, ResourceLocator);
+            var screenContext = new ScreenContext(this, ResourceLocator, NetworkClient);
 
             var screen = (IScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
 

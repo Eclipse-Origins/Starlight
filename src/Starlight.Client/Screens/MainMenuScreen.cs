@@ -3,6 +3,7 @@ using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.UI;
 using Starlight.Client.Rendering;
 using Starlight.Client.UI;
+using Starlight.Packets;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -43,7 +44,7 @@ namespace Starlight.Client.Screens
             var password = UI.RegisterPasswordTextBox.Text;
             var confirmPassword = UI.RegisterConfirmPasswordTextBox.Text;
 
-
+            ScreenContext.NetworkClient.SendPacket(new RegisterPacket(username, password));
         }
 
         private void RegisterCommandButton_Click(object sender, EventArgs e) {
