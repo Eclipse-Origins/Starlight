@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Starlight.Network;
 using Starlight.Server.Data;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,17 @@ namespace Starlight.Server.Network
 {
     public class RequestContext : IDisposable
     {
-        private readonly Configuration configuration;
-        private readonly ApplicationDbContext applicationDbContext;
+        public int ConnectionId { get; }
+        public Configuration Configuration { get; }
+        public StarlightServer Server { get; }
+        public ApplicationDbContext DbContext { get; }
 
-        public RequestContext(Configuration configuration) {
-            this.configuration = configuration;
+        public RequestContext(int connectionId, Configuration configuration, StarlightServer server) {
+            this.ConnectionId = connectionId;
+            this.Configuration = configuration;
+            this.Server = server;
 
-            this.applicationDbContext = new ApplicationDbContext(ConfigureDbContext(configuration));
+            this.DbContext = new ApplicationDbContext(ConfigureDbContext(configuration));
         }
 
         private DbContextOptions ConfigureDbContext(Configuration configuration) {
@@ -24,7 +29,7 @@ namespace Starlight.Server.Network
         }
 
         public void Dispose() {
-            this.applicationDbContext.Dispose();
+            this.DbContext.Dispose();
         }
     }
 }

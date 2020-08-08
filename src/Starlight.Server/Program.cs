@@ -1,4 +1,5 @@
-﻿using Starlight.Server.Network;
+﻿using Starlight.Network;
+using Starlight.Server.Network;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -15,15 +16,16 @@ namespace Starlight.Server
 
             var configuration = LoadConfiguration();
 
-            var networkDispatch = new NetworkDispatch(configuration);
-
             // create and start the server
-            Telepathy.Server server = new Telepathy.Server();
-            server.Start(configuration.Port);
+            var server = new StarlightServer(new Telepathy.Server());
+            server.Server.Start(configuration.Port);
+
+            var networkDispatch = new NetworkDispatch(configuration, server);
+            networkDispatch.ResolveHandlers();
 
             var isRunning = true;
             while (isRunning) {
-                while (server.GetNextMessage(out var msg)) {
+                while (server.Server.GetNextMessage(out var msg)) {
                     switch (msg.eventType) {
                         case Telepathy.EventType.Connected:
                             Console.WriteLine(msg.connectionId + " Connected");

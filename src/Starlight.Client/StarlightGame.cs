@@ -35,7 +35,8 @@ namespace Starlight.Client
             this.ResourceLocator = new ResourceLocator(workingDirectory);
             this.NetworkClient = new StarlightClient(new Telepathy.Client());
 
-            this.networkDispatch = new NetworkDispatch();
+            this.networkDispatch = new NetworkDispatch(this.NetworkClient);
+            this.networkDispatch.ResolveHandlers();
 
             this.desktop = new Desktop();
 

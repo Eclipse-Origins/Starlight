@@ -7,8 +7,14 @@ namespace Starlight.Client.Network
 {
     public class NetworkDispatch : AbstractNetworkDispatch<RequestContext>
     {
-        protected override RequestContext BuildRequestContext() {
-            return new RequestContext();
+        private readonly StarlightClient networkClient;
+
+        public NetworkDispatch(StarlightClient networkClient) : base(typeof(NetworkDispatch).Assembly) {
+            this.networkClient = networkClient;
+        }
+
+        protected override RequestContext BuildRequestContext(int connectionId) {
+            return new RequestContext(connectionId, networkClient);
         }
     }
 }
