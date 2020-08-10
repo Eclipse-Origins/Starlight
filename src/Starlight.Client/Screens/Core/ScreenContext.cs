@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Starlight.Client.Screens
+namespace Starlight.Client.Screens.Core
 {
     public class ScreenContext
     {
