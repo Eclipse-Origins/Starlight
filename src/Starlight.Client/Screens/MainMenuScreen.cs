@@ -20,8 +20,11 @@ namespace Starlight.Client.Screens
             public TextButton RegisterCommandButton { get; set; }
 
             public Grid LoginPanel { get; set; }
-            public Grid RegisterPanel { get; set; }
+            public TextBox LoginUsernameTextBox { get; set; }
+            public TextBox LoginPasswordTextBox { get; set; }
+            public TextButton LoginButton { get; set; }
 
+            public Grid RegisterPanel { get; set; }
             public TextBox RegisterUsernameTextBox { get; set; }
             public TextBox RegisterPasswordTextBox { get; set; }
             public TextBox RegisterConfirmPasswordTextBox { get; set; }
@@ -37,7 +40,15 @@ namespace Starlight.Client.Screens
             this.UI.LoginCommandButton.Click += LoginCommandButton_Click;
             this.UI.RegisterCommandButton.Click += RegisterCommandButton_Click;
 
+            this.UI.LoginButton.Click += LoginButton_Click;
             this.UI.RegisterButton.Click += RegisterButton_Click;
+        }
+
+        private void LoginButton_Click(object sender, EventArgs e) {
+            var username = UI.LoginUsernameTextBox.Text;
+            var password = UI.LoginPasswordTextBox.Text;
+
+            ScreenContext.NetworkClient.SendPacket(new LoginPacket(username, password));
         }
 
         private void RegisterButton_Click(object sender, EventArgs e) {

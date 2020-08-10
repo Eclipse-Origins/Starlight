@@ -20,16 +20,29 @@ namespace Starlight.Server.Security
         public GeneratedPassword HashPassword(string password) {
             var salt = GenerateSalt();
 
-            var passwordHash = KeyDerivation.Pbkdf2(
+            var passwordHash = HashPassword(password, salt);
+
+            return new GeneratedPassword(
+                salt: Convert.ToBase64String(salt),
+                passwordHash: Convert.ToBase64String(passwordHash));
+        }
+
+        private byte[] HashPassword(string password, byte[] salt) {
+            return KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA1,
                 iterationCount: 10000,
                 numBytesRequested: 256 / 8);
+        }
 
-            return new GeneratedPassword(
-                salt: Convert.ToBase64String(salt),
-                passwordHash: Convert.ToBase64String(passwordHash));
+        public bool VerifyPassword(string actualPassword, string salt, string testPassword) {
+            var saltBytes = Convert.FromBase64String(salt);
+
+            var actualPasswordBytes = Convert.FromBase64String(actualPassword);
+            var testPasswordBytes = HashPassword(testPassword, saltBytes);
+
+            return CryptographicOperations.FixedTimeEquals(actualPasswordBytes, testPasswordBytes);
         }
     }
 }

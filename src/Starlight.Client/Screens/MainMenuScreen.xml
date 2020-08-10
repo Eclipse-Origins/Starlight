@@ -39,9 +39,9 @@
                     </Grid.RowsProportions>
 
                     <Label HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Username" TextAlign="Center" />
-                    <TextBox GridRow="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0" />
+                    <TextBox GridRow="1" Id="LoginUsernameTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0" />
                     <Label GridRow="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Password" TextAlign="Center" />
-                    <TextBox GridRow="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" PasswordField="true" Margin="5,0" />
+                    <TextBox GridRow="3" Id="LoginPasswordTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" PasswordField="true" Margin="5,0" />
 
                     <TextButton Id="LoginButton" GridRow="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2" Text="Login" />
                 </Grid>
