@@ -15,10 +15,10 @@ namespace Starlight.Client.Screens.Core
     public abstract class AbstractScreen : IScreen
     {
         public StarlightGrid RootUI { get; }
-        public ScreenContext ScreenContext { get; }
+        public ScreenContext Context { get; }
 
         public AbstractScreen(ScreenContext screenContext) {
-            this.ScreenContext = screenContext;
+            this.Context = screenContext;
 
             this.RootUI = new StarlightGrid();
         }

@@ -27,13 +27,13 @@ namespace Starlight.Client.Screens
         }
 
         private void MainMenuButton_Click(object sender, EventArgs e) {
-            ScreenContext.ScreenContainer.ChangeScreen<MainMenuScreen>();
+            Context.ScreenContainer.ChangeScreen<MainMenuScreen>();
         }
 
         public override void PrepareResources(GraphicsDevice graphicsDevice) {
             base.PrepareResources(graphicsDevice);
 
-            surface = Texture2D.FromFile(graphicsDevice, ScreenContext.ResourceLocator.LocateAssetPath("graphics", "items", "1.png"));
+            surface = Texture2D.FromFile(graphicsDevice, Context.ResourceLocator.LocateAssetPath("graphics", "items", "1.png"));
         }
 
         protected override void OnRenderForegroundFrame(Rendering.RenderContext renderContext) {

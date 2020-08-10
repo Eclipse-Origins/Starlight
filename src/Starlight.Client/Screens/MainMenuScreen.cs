@@ -48,7 +48,7 @@ namespace Starlight.Client.Screens
             var username = UI.LoginUsernameTextBox.Text;
             var password = UI.LoginPasswordTextBox.Text;
 
-            ScreenContext.NetworkClient.SendPacket(new LoginPacket(username, password));
+            Context.NetworkClient.SendPacket(new LoginPacket(username, password));
         }
 
         private void RegisterButton_Click(object sender, EventArgs e) {
@@ -56,7 +56,7 @@ namespace Starlight.Client.Screens
             var password = UI.RegisterPasswordTextBox.Text;
             var confirmPassword = UI.RegisterConfirmPasswordTextBox.Text;
 
-            ScreenContext.NetworkClient.SendPacket(new RegisterPacket(username, password));
+            Context.NetworkClient.SendPacket(new RegisterPacket(username, password));
         }
 
         private void RegisterCommandButton_Click(object sender, EventArgs e) {
