@@ -1,3 +1,65 @@
 ﻿<Project>
-    
+    <Grid>
+        <Grid.ColumnsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Auto" />
+            <Proportion Type="Part" />
+        </Grid.ColumnsProportions>
+        <Grid.RowsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Auto" />
+            <Proportion Type="Part" />
+        </Grid.RowsProportions>
+
+        <Grid GridColumn="1" GridRow="1">
+            <Grid.RowsProportions>
+                <Proportion Type="Auto" />
+                <Proportion Type="Part" />
+            </Grid.RowsProportions>
+
+            <Grid GridRow="1" Width="300" Height="200" Background="Gray">
+
+                <Grid>
+                    <Grid.RowsProportions>
+                        <Proportion Type="Auto" />
+                        <Proportion Type="Part" />
+                    </Grid.RowsProportions>
+
+                    <Label GridRow="0" Text="Characters" HorizontalAlignment="Center" Padding="5" />
+
+                    <Grid GridRow="1">
+                        <Grid.ColumnsProportions>
+                            <Proportion Type="Auto" />
+                            <Proportion Type="Part" />
+                            <Proportion Type="Auto" />
+                        </Grid.ColumnsProportions>
+                        
+                        <TextButton GridColumn="0" Id="PreviousCharacterButton" Text="&lt;" Padding="10" Margin="5" VerticalAlignment="Center" />
+
+                        <Grid GridColumn="1">
+                            <Grid Visible="false" Id="EmptySlotPanel">
+                                <Grid.RowsProportions>
+                                    <Proportion Type="Part" />
+                                    <Proportion Type="Part" />
+                                </Grid.RowsProportions>
+
+                                <Label GridRow="0" Text="Empty Character Slot" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextButton GridRow="1" Id="NewCharacterButton" Text="New Character" Padding="5" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                            </Grid>
+
+                            <Grid Visible="false" Id="CharacterDetailsPanel">
+                                <Grid.RowsProportions>
+                                    <Proportion Type="Auto" />
+                                </Grid.RowsProportions>
+
+                                <Label GridRow="0" Id="UsernameLabel" />
+                            </Grid>
+                        </Grid>
+
+                        <TextButton GridColumn="2" Id="NextCharacterButton" Text="&gt;" Padding="10" Margin="5" VerticalAlignment="Center" />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
 </Project>

@@ -11,11 +11,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Screens\CharacterSelectScreen.xml" />
       <None Remove="Screens\MainMenuScreen.xml" />
       <None Remove="Screens\SplashScreen.xml" />
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Include="Screens\CharacterSelectScreen.xml" />
       <EmbeddedResource Include="Screens\MainMenuScreen.xml" />
       <EmbeddedResource Include="Screens\SplashScreen.xml" />
     </ItemGroup>

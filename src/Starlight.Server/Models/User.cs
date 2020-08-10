@@ -10,5 +10,7 @@ namespace Starlight.Server.Models
 
         public string PasswordSalt { get; set; }
         public string PasswordHash { get; set; }
+
+        public List<Character> Characters { get; set; }
     }
 }
