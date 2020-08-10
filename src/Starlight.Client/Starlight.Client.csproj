@@ -34,5 +34,10 @@
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1375-develop" />
         <PackageReference Include="Myra" Version="1.0.0.205" />
     </ItemGroup>
+    <ItemGroup>
+      <None Update="Content\Languages\en-us.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 
 </Project>

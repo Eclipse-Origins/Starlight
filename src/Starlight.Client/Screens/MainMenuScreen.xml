@@ -23,8 +23,8 @@
                     <Proportion Type="Auto" />
                 </Grid.ColumnsProportions>
 
-                <TextButton GridColumn="0" Id="LoginCommandButton" Text="Login" Padding="5" />
-                <TextButton GridColumn="1" Id="RegisterCommandButton" Text="Register" Padding="5" />
+                <TextButton GridColumn="0" Id="LoginCommandButton" Padding="5" />
+                <TextButton GridColumn="1" Id="RegisterCommandButton" Padding="5" />
             </Grid>
 
             <Grid GridRow="1" Width="300" Height="200" Background="Gray">
@@ -38,12 +38,12 @@
                         <Proportion Type="Auto" />
                     </Grid.RowsProportions>
 
-                    <Label HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Username" TextAlign="Center" />
+                    <Label Id="LoginUsernameLabel" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlign="Center" />
                     <TextBox GridRow="1" Id="LoginUsernameTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0" />
-                    <Label GridRow="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Password" TextAlign="Center" />
+                    <Label Id="LoginPasswordLabel" GridRow="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlign="Center" />
                     <TextBox GridRow="3" Id="LoginPasswordTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" PasswordField="true" Margin="5,0" />
 
-                    <TextButton Id="LoginButton" GridRow="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2" Text="Login" />
+                    <TextButton Id="LoginButton" GridRow="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2" />
                 </Grid>
 
                 <Grid Visible="false" Id="RegisterPanel" HorizontalAlignment="Stretch" VerticalAlignment="Center">
@@ -57,16 +57,16 @@
                         <Proportion Type="Auto" />
                     </Grid.RowsProportions>
 
-                    <Label HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Username" TextAlign="Center" />
+                    <Label Id="RegisterUsernameLabel" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlign="Center" />
                     <TextBox GridRow="1" Id="RegisterUsernameTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0" />
 
-                    <Label GridRow="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Password" TextAlign="Center" />
+                    <Label Id="RegisterPasswordLabel" GridRow="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlign="Center" />
                     <TextBox GridRow="3" Id="RegisterPasswordTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" PasswordField="true" Margin="5,0" />
 
-                    <Label GridRow="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Confirm Password" TextAlign="Center" />
+                    <Label Id="RegisterConfirmPasswordLabel" GridRow="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlign="Center" />
                     <TextBox GridRow="5" Id="RegisterConfirmPasswordTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" PasswordField="true" Margin="5,0" />
 
-                    <TextButton GridRow="6" Id="RegisterButton" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2" Text="Register" />
+                    <TextButton GridRow="6" Id="RegisterButton" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,2" />
                 </Grid>
                 
             </Grid>

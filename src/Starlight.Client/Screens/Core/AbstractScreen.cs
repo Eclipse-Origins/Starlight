@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D.UI.Styles;
 using Starlight.Client.Rendering;
 using Starlight.Client.UI;
+using Starlight.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace Starlight.Client.Screens.Core
         public StarlightGrid RootUI { get; }
         public ScreenContext Context { get; }
 
+        public string ScreenName => this.GetType().Name;
+
         public AbstractScreen(ScreenContext screenContext) {
             this.Context = screenContext;
 
@@ -26,18 +29,38 @@ namespace Starlight.Client.Screens.Core
         public void Layout() {
             InitializeFromMarkup(this.RootUI);
 
-            foreach (var grid in this.RootUI.Widgets.OfType<MyraUI.Grid>()) {
-                ApplyProperties(grid);
+            foreach (var container in this.RootUI.Widgets.OfType<MyraUI.MultipleItemsContainerBase>()) {
+                VisitUIChildren(container);
             }
 
             OnLayout(this.RootUI);
         }
 
-        private void ApplyProperties(MyraUI.Grid grid) {
-            grid.ShowGridLines = Debugging.UIDebugging;
+        private void VisitUIChildren(MyraUI.MultipleItemsContainerBase container) {
+            ApplyWidgetProperties(container);
 
-            foreach (var child in grid.Widgets.OfType<MyraUI.Grid>()) {
-                ApplyProperties(child);
+            foreach (var child in container.Widgets) {
+                if (child is MyraUI.MultipleItemsContainerBase childContainer) {
+                    VisitUIChildren(childContainer);
+                } else {
+                    ApplyWidgetProperties(child);
+                }
+            }
+        }
+
+        private void ApplyWidgetProperties(MyraUI.Widget widget) {
+            if (widget is MyraUI.Grid grid) {
+                grid.ShowGridLines = Debugging.UIDebugging;
+            }
+            if (widget is MyraUI.TextButton textButton) {
+                if (TranslationManager.Instance.TryTranslate($"{ScreenName}.{textButton.Id}", out var value)) {
+                    textButton.Text = value;
+                }
+            }
+            if (widget is MyraUI.Label label) {
+                if (TranslationManager.Instance.TryTranslate($"{ScreenName}.{label.Id}", out var value)) {
+                    label.Text = value;
+                }
             }
         }
 
@@ -65,9 +88,7 @@ namespace Starlight.Client.Screens.Core
         }
 
         private void InitializeFromMarkup(StarlightGrid rootUI) {
-            var screenName = this.GetType().Name;
-
-            var resourceStream = typeof(AbstractScreen).Assembly.GetManifestResourceStream($"Starlight.Client.Screens.{screenName}.xml");
+            var resourceStream = typeof(AbstractScreen).Assembly.GetManifestResourceStream($"Starlight.Client.Screens.{ScreenName}.xml");
             if (resourceStream != null) {
                 using (resourceStream) {
                     var document = XDocument.Load(resourceStream);

@@ -1,0 +1,21 @@
+{
+    "MainMenuScreen": {
+        "LoginCommandButton": "Login",
+        "RegisterCommandButton": "Register",
+
+        "LoginUsernameLabel": "Username",
+        "LoginPasswordLabel": "Password",
+        "LoginButton": "Login",
+
+        "RegisterUsernameLabel": "Username",
+        "RegisterPasswordLabel": "Password",
+        "RegisterConfirmPasswordLabel": "Confirm Password",
+        "RegisterButton": "Register"
+    },
+    "CharacterSelectScreen": {
+        "Header": "Characters",
+
+        "EmptyCharacterSlotLabel": "Empty Character Slot",
+        "NewCharacterButton": "New Character"
+    }
+}

@@ -7,6 +7,7 @@ using Starlight.Client.Resources;
 using Starlight.Client.Screens;
 using Starlight.Client.Screens.Core;
 using Starlight.Network;
+using Starlight.Translations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,6 +59,8 @@ namespace Starlight.Client
 
         protected override void LoadContent() {
             base.LoadContent();
+
+            TranslationManager.Instance.ImportFromDocument(this.ResourceLocator.LocateContentPath("Languages", "en-us.json"));
 
             var spriteBatch = new SpriteBatch(GraphicsDevice);
             RenderContext = new RenderContext(GraphicsDevice, spriteBatch);

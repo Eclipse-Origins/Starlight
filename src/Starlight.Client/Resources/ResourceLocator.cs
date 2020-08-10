@@ -16,5 +16,9 @@ namespace Starlight.Client.Resources
         public string LocateAssetPath(params string[] paths) {
             return Path.Combine(workingDirectory, "Assets", Path.Combine(paths));
         }
+
+        public string LocateContentPath(params string[] paths) {
+            return Path.Combine(workingDirectory, "Content", Path.Combine(paths));
+        }
     }
 }

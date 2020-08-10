@@ -25,7 +25,7 @@
                         <Proportion Type="Part" />
                     </Grid.RowsProportions>
 
-                    <Label GridRow="0" Text="Characters" HorizontalAlignment="Center" Padding="5" />
+                    <Label Id="Header" GridRow="0" HorizontalAlignment="Center" Padding="5" />
 
                     <Grid GridRow="1">
                         <Grid.ColumnsProportions>
@@ -43,8 +43,8 @@
                                     <Proportion Type="Part" />
                                 </Grid.RowsProportions>
 
-                                <Label GridRow="0" Text="Empty Character Slot" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextButton GridRow="1" Id="NewCharacterButton" Text="New Character" Padding="5" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                <Label Id="EmptyCharacterSlotLabel" GridRow="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextButton GridRow="1" Id="NewCharacterButton" Padding="5" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                             </Grid>
 
                             <Grid Visible="false" Id="CharacterDetailsPanel">
