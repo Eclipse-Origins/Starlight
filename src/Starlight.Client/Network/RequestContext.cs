@@ -1,4 +1,5 @@
-﻿using Starlight.Network;
+﻿using Starlight.Client.Screens.Core;
+using Starlight.Network;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,10 +10,12 @@ namespace Starlight.Client.Network
     {
         public int ConnectionId { get; }
         public StarlightClient NetworkClient { get; }
+        public ScreenContainer ScreenContainer { get; }
 
-        public RequestContext(int connectionId, StarlightClient networkClient) {
+        public RequestContext(int connectionId, StarlightClient networkClient, ScreenContainer screenContainer) {
             this.ConnectionId = connectionId;
             this.NetworkClient = networkClient;
+            this.ScreenContainer = screenContainer;
         }
 
         public void Dispose() {

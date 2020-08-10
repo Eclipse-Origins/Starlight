@@ -2,6 +2,7 @@
 using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.UI;
 using Starlight.Client.Rendering;
+using Starlight.Client.Screens.Core;
 using Starlight.Client.UI;
 using Starlight.Packets;
 using System;
@@ -60,6 +61,17 @@ namespace Starlight.Client.Screens
         private void HidePanels() {
             this.UI.LoginPanel.Visible = false;
             this.UI.RegisterPanel.Visible = false;
+        }
+
+        public void AnnounceRegistration(bool succeeded, string message) {
+            this.UI.RegisterUsernameTextBox.Text = string.Empty;
+            this.UI.RegisterPasswordTextBox.Text = string.Empty;
+            this.UI.RegisterConfirmPasswordTextBox.Text = string.Empty;
+
+            if (succeeded) {
+                HidePanels();
+                this.UI.LoginPanel.Visible = true;
+            }
         }
     }
 }

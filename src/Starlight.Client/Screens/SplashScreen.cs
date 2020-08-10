@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D.UI;
 using Starlight.Client.Rendering;
+using Starlight.Client.Screens.Core;
 using Starlight.Client.UI;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Starlight.Client.Screens
         }
 
         private void MainMenuButton_Click(object sender, EventArgs e) {
-            ScreenContext.ChangeScreen<MainMenuScreen>();
+            ScreenContext.ScreenContainer.ChangeScreen<MainMenuScreen>();
         }
 
         public override void PrepareResources(GraphicsDevice graphicsDevice) {

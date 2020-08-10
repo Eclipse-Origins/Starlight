@@ -8,7 +8,7 @@ using System.Text;
 
 using MyraUI = Myra.Graphics2D.UI;
 
-namespace Starlight.Client.Screens
+namespace Starlight.Client.Screens.Core
 {
     public interface IScreen
     {

@@ -10,7 +10,7 @@ using System.Text;
 using System.Xml.Linq;
 using MyraUI = Myra.Graphics2D.UI;
 
-namespace Starlight.Client.Screens
+namespace Starlight.Client.Screens.Core
 {
     public abstract class AbstractScreen : IScreen
     {

@@ -1,16 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra;
-using Myra.Graphics2D.UI;
 using Starlight.Client.Network;
 using Starlight.Client.Rendering;
 using Starlight.Client.Resources;
 using Starlight.Client.Screens;
+using Starlight.Client.Screens.Core;
 using Starlight.Network;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Encodings.Web;
+
+using MyraUI = Myra.Graphics2D.UI;
 
 namespace Starlight.Client
 {
@@ -19,26 +21,28 @@ namespace Starlight.Client
         private readonly GraphicsDeviceManager graphics;
 
         private readonly NetworkDispatch networkDispatch;
-        private readonly Myra.Graphics2D.UI.Desktop desktop;
+        private readonly MyraUI.Desktop desktop;
 
         public bool IsRunning { get; private set; }
 
         public ResourceLocator ResourceLocator { get; }
-        public Rendering.RenderContext RenderContext { get; private set; }
+        public RenderContext RenderContext { get; private set; }
         public StarlightClient NetworkClient { get; }
 
-        public IScreen Screen { get; private set; }
+        public ScreenContainer ScreenContainer { get; }
 
         public StarlightGame(string workingDirectory) {
             this.graphics = new GraphicsDeviceManager(this);
 
+            this.desktop = new MyraUI.Desktop();
+
             this.ResourceLocator = new ResourceLocator(workingDirectory);
             this.NetworkClient = new StarlightClient(new Telepathy.Client());
 
-            this.networkDispatch = new NetworkDispatch(this.NetworkClient);
-            this.networkDispatch.ResolveHandlers();
+            this.ScreenContainer = new ScreenContainer(ResourceLocator, NetworkClient, desktop);
 
-            this.desktop = new Desktop();
+            this.networkDispatch = new NetworkDispatch(this.NetworkClient, this.ScreenContainer);
+            this.networkDispatch.ResolveHandlers();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -49,16 +53,18 @@ namespace Starlight.Client
         protected override void Initialize() {
             base.Initialize();
 
-            ChangeScreen<SplashScreen>();
+            this.ScreenContainer.ChangeScreen<SplashScreen>();
         }
 
         protected override void LoadContent() {
             base.LoadContent();
 
             var spriteBatch = new SpriteBatch(GraphicsDevice);
-            RenderContext = new Rendering.RenderContext(GraphicsDevice, spriteBatch);
+            RenderContext = new RenderContext(GraphicsDevice, spriteBatch);
 
             MyraEnvironment.Game = this;
+
+            this.ScreenContainer.LoadContent(GraphicsDevice);
         }
 
         public void Connect() {
@@ -82,8 +88,8 @@ namespace Starlight.Client
                 }
             }
 
-            if (Screen != null) {
-                Screen.Update(gameTime);
+            if (ScreenContainer.HasActiveScreen) {
+                ScreenContainer.Screen.Update(gameTime);
             }
         }
 
@@ -94,32 +100,19 @@ namespace Starlight.Client
 
             GraphicsDevice.Clear(Color.Black);
 
-            if (Screen != null) {
+            if (ScreenContainer.HasActiveScreen) {
                 RenderContext.SpriteBatch.Begin();
-                Screen.RenderBackgroundFrame(RenderContext);
+                ScreenContainer.Screen.RenderBackgroundFrame(RenderContext);
                 RenderContext.SpriteBatch.End();
 
                 desktop.Render();
 
                 RenderContext.SpriteBatch.Begin();
-                Screen.RenderForegroundFrame(RenderContext);
+                ScreenContainer.Screen.RenderForegroundFrame(RenderContext);
                 RenderContext.SpriteBatch.End();
             }
 
             base.Draw(gameTime);
-        }
-
-        public void ChangeScreen<TScreen>() where TScreen : IScreen {
-            var screenContext = new ScreenContext(this, ResourceLocator, NetworkClient);
-
-            var screen = (IScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
-
-            screen.PrepareResources(GraphicsDevice);
-            screen.Layout();
-
-            desktop.Root = screen.RootUI;
-
-            this.Screen = screen;
         }
     }
 }

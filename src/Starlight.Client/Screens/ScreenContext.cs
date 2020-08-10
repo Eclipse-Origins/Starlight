@@ -1,4 +1,5 @@
 ﻿using Starlight.Client.Resources;
+using Starlight.Client.Screens.Core;
 using Starlight.Network;
 using System;
 using System.Collections.Generic;
@@ -8,20 +9,14 @@ namespace Starlight.Client.Screens
 {
     public class ScreenContext
     {
-        public StarlightGame Game { get; }
+        public ScreenContainer ScreenContainer { get; }
         public ResourceLocator ResourceLocator { get; }
         public StarlightClient NetworkClient { get; }
 
-        public ScreenContext(StarlightGame game, ResourceLocator resourceLocator, StarlightClient networkClient) {
-            this.Game = game;
+        public ScreenContext(ScreenContainer screenContainer, ResourceLocator resourceLocator, StarlightClient networkClient) {
+            this.ScreenContainer = screenContainer;
             this.ResourceLocator = resourceLocator;
             this.NetworkClient = networkClient;
         }
-
-        public void ChangeScreen<TScreen>() where TScreen : IScreen {
-            Game.ChangeScreen<TScreen>();
-        }
-
-
     }
 }
