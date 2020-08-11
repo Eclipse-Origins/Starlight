@@ -1,5 +1,6 @@
 ﻿using Starlight.Network;
 using Starlight.Server.Network;
+using Starlight.Translations;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,8 @@ namespace Starlight.Server
             Console.WriteLine("Starlight Server");
 
             var configuration = LoadConfiguration();
+
+            TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
 
             // create and start the server
             var server = new StarlightServer(new Telepathy.Server());

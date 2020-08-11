@@ -4,6 +4,7 @@ using Starlight.Server.Handlers.Core;
 using Starlight.Server.Models;
 using Starlight.Server.Network;
 using Starlight.Server.Security;
+using Starlight.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,13 @@ namespace Starlight.Server.Handlers
 
             var user = requestContext.DbContext.Users.Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
             if (user != null) {
-                requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(false, "Account already exists."));
+                requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(false, TranslationManager.Instance.Translate("Register.AccountExists")));
                 return;
             }
 
             CreateUser(requestContext.DbContext, packet.Username, packet.Password);
 
-            requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(true, "Account has been created."));
+            requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(true, TranslationManager.Instance.Translate("Register.AccountCreated")));
         }
 
         private User CreateUser(ApplicationDbContext dbContext, string username, string password) {

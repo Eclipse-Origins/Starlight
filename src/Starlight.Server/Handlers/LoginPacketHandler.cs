@@ -4,6 +4,7 @@ using Starlight.Packets;
 using Starlight.Server.Handlers.Core;
 using Starlight.Server.Network;
 using Starlight.Server.Security;
+using Starlight.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,13 @@ namespace Starlight.Server.Handlers
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
             if (user == null) {
-                requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, "Invalid username or password."));
+                requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, TranslationManager.Instance.Translate("Login.InvalidUsernamePassword")));
                 return;
             }
 
             var passwordHasher = new PasswordHasher();
             if (!passwordHasher.VerifyPassword(user.PasswordHash, user.PasswordSalt, packet.Password)) {
-                requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, "Invalid username or password."));
+                requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, TranslationManager.Instance.Translate("Login.InvalidUsernamePassword")));
                 return;
             }
 

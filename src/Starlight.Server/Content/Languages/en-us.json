@@ -1,0 +1,9 @@
+{
+    "Register": {
+        "AccountExists": "Account already exists.",
+        "AccountCreated": "Account has been created."
+    },
+    "Login": {
+        "InvalidUsernamePassword": "Invalid username or password."
+    }
+}
