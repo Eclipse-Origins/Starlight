@@ -1,0 +1,60 @@
+﻿<Project>
+    <Grid>
+        <Grid.ColumnsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Auto" />
+            <Proportion Type="Part" />
+        </Grid.ColumnsProportions>
+        <Grid.RowsProportions>
+            <Proportion Type="Part" />
+            <Proportion Type="Auto" />
+            <Proportion Type="Part" />
+        </Grid.RowsProportions>
+
+        <Grid GridColumn="1" GridRow="1">
+            <Grid.RowsProportions>
+                <Proportion Type="Auto" />
+                <Proportion Type="Part" />
+            </Grid.RowsProportions>
+
+            <Grid GridRow="1" Width="300" Height="200" Background="Gray">
+
+                <Grid>
+                    <Grid.RowsProportions>
+                        <Proportion Type="Auto" />
+                        <Proportion Type="Part" />
+                    </Grid.RowsProportions>
+
+                    <Label Id="Header" GridRow="0" HorizontalAlignment="Center" Padding="5" />
+
+                    <Grid GridRow="1">
+                        <Grid.RowsProportions>
+                            <Proportion Type="Part" />
+                            <Proportion Type="Part" />
+                        </Grid.RowsProportions>
+
+                        <Grid GridRow="0" VerticalAlignment="Center" Margin="5, 0">
+                            <Grid.RowsProportions>
+                                <Proportion Type="Auto" />
+                                <Proportion Type="Auto" />
+                            </Grid.RowsProportions>
+
+                            <Label GridRow="0" Id="CharacterNameLabel" />
+                            <TextBox GridRow="1" Id="CharacterNameTextBox" />
+                        </Grid>
+
+                        <Grid GridRow="1">
+                            <Grid.ColumnsProportions>
+                                <Proportion Type="Part" />
+                                <Proportion Type="Part" />
+                            </Grid.ColumnsProportions>
+
+                            <TextButton GridColumn="0" Id="CancelButton" Padding="5" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+                            <TextButton GridColumn="1" Id="CreateCharacterButton" Padding="5" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Project>

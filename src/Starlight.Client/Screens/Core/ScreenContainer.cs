@@ -16,6 +16,8 @@ namespace Starlight.Client.Screens.Core
         private readonly StarlightClient networkClient;
         private readonly Desktop desktop;
 
+        private readonly Stack<IScreen> screenStack;
+
         GraphicsDevice graphicsDevice;
 
         public IScreen Screen { get; private set; }
@@ -26,6 +28,8 @@ namespace Starlight.Client.Screens.Core
             this.resourceLocator = resourceLocator;
             this.networkClient = networkClient;
             this.desktop = desktop;
+
+            this.screenStack = new Stack<IScreen>();
         }
 
         public void LoadContent(GraphicsDevice graphicsDevice) {
@@ -36,14 +40,44 @@ namespace Starlight.Client.Screens.Core
             }
         }
 
-        public void ChangeScreen<TScreen>() where TScreen : IScreen {
+        public TScreen PushScreen<TScreen>() where TScreen : IScreen {
+            var screen = BuildScreen<TScreen>();
+
+            this.screenStack.Push(screen);
+
+            SetScreen(screen);
+
+            return screen;
+        }
+
+        public void PopScreen() {
+            if (this.screenStack.Count > 0) {
+                screenStack.Pop();
+
+                if (screenStack.TryPeek(out var screen)) {
+                    SetScreen(screen);
+                }
+            }
+        }
+
+        public TScreen ChangeScreen<TScreen>() where TScreen : IScreen {
+            this.screenStack.Clear();
+
+            return PushScreen<TScreen>();
+        }
+
+        private TScreen BuildScreen<TScreen>() where TScreen : IScreen {
             var screenContext = new ScreenContext(this, resourceLocator, networkClient);
 
-            var screen = (IScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
+            var screen = (TScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
 
             screen.PrepareResources(graphicsDevice);
             screen.Layout();
 
+            return screen;
+        }
+
+        private void SetScreen(IScreen screen) {
             desktop.Root = screen.RootUI;
 
             this.Screen = screen;

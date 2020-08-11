@@ -31,7 +31,9 @@ namespace Starlight.Client.Screens
         }
 
         private void NewCharacterButton_Click(object sender, EventArgs e) {
+            var screen = Context.ScreenContainer.PushScreen<CharacterCreationScreen>();
 
+            screen.SetSlot(slot);
         }
 
         private void HideAllPanels() {
