@@ -49,10 +49,21 @@
 
                             <Grid Visible="false" Id="CharacterDetailsPanel">
                                 <Grid.RowsProportions>
-                                    <Proportion Type="Auto" />
+                                    <Proportion Type="Part" />
+                                    <Proportion Type="Part" />
                                 </Grid.RowsProportions>
 
-                                <Label GridRow="0" Id="UsernameLabel" />
+                                <Label GridRow="0" Id="UsernameLabel" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <Grid GridRow="1">
+                                    <Grid.ColumnsProportions>
+                                        <Proportion Type="Part" />
+                                        <Proportion Type="Part" />
+                                    </Grid.ColumnsProportions>
+
+                                    <TextButton GridColumn="0" Id="DeleteCharacterButton" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Padding="5" />
+                                    <TextButton GridColumn="1" Id="UseCharacterButton" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Padding="5" />
+                                </Grid>
                             </Grid>
                         </Grid>
 

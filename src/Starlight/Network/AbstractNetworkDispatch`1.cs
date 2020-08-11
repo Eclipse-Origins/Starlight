@@ -44,9 +44,14 @@ namespace Starlight.Network
                 using (var requestContext = BuildRequestContext(connectionId)) {
                     if (this.handlers.TryGetValue(packetHeader.Type, out var handler)) {
                         handler.HandleGenericPacket(requestContext, packet);
+
+                        OnRequestCompleted(requestContext);
                     }
                 }
             }
+        }
+
+        protected virtual void OnRequestCompleted(TRequestContext requestContext) {
         }
     }
 }

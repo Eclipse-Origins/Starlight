@@ -27,7 +27,7 @@ namespace Starlight.Server.Handlers
             }
 
             CreateUser(requestContext.DbContext, packet.Username, packet.Password);
-
+ 
             requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(true, TranslationManager.Instance.Translate("Register.AccountCreated")));
         }
 
@@ -42,8 +42,6 @@ namespace Starlight.Server.Handlers
             user.PasswordSalt = hashedPassword.Salt;
 
             dbContext.Users.Add(user);
-
-            dbContext.SaveChanges();
 
             return user;
         }

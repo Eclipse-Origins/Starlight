@@ -2,8 +2,10 @@
 using Starlight.Client.Screens.Core;
 using Starlight.Client.UI;
 using Starlight.Models;
+using Starlight.Packets;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Starlight.Client.Screens
@@ -12,12 +14,14 @@ namespace Starlight.Client.Screens
     {
         public class Controls
         {
-            public Label UsernameLabel { get; set; }
 
             public Grid EmptySlotPanel { get; set; }
             public TextButton NewCharacterButton { get; set; }
 
             public Grid CharacterDetailsPanel { get; set; }
+            public Label UsernameLabel { get; set; }
+            public TextButton DeleteCharacterButton { get; set; }
+            public TextButton UseCharacterButton { get; set; }
         }
 
         int slot;
@@ -28,10 +32,16 @@ namespace Starlight.Client.Screens
 
         protected override void OnLayout(StarlightGrid rootUI) {
             UI.NewCharacterButton.Click += NewCharacterButton_Click;
+
+            UI.DeleteCharacterButton.Click += DeleteCharacterButton_Click;
+        }
+
+        private void DeleteCharacterButton_Click(object sender, EventArgs e) {
+            Context.NetworkClient.SendPacket(new DeleteCharacterPacket(slot));
         }
 
         private void NewCharacterButton_Click(object sender, EventArgs e) {
-            var screen = Context.ScreenContainer.PushScreen<CharacterCreationScreen>();
+            var screen = Context.ScreenContainer.PushScreen<CharacterCreationScreen>(); 
 
             screen.SetSlot(slot);
         }
@@ -48,16 +58,26 @@ namespace Starlight.Client.Screens
         }
 
         private void SetCharacterSlot(int slot) {
-            if (characterDetails.Length <= slot) {
-                SetEmptySlot(slot);
+            this.slot = slot;
+
+            var character = characterDetails.Where(x => x.Slot == slot).FirstOrDefault();
+            if (character == null) {
+                SetEmptySlot();
+            } else {
+                SetCharacterDetails(character);
             }
         }
 
-        private void SetEmptySlot(int slot) {
-            this.slot = slot;
-
+        private void SetEmptySlot() {
             HideAllPanels();
             UI.EmptySlotPanel.Visible = true;
+        }
+
+        private void SetCharacterDetails(MenuCharacterDetails menuCharacterDetails) {
+            HideAllPanels();
+            UI.CharacterDetailsPanel.Visible = true;
+
+            UI.UsernameLabel.Text = menuCharacterDetails.Name;
         }
     }
 }

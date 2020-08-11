@@ -16,7 +16,10 @@
         "Header": "Characters",
 
         "EmptyCharacterSlotLabel": "Empty Character Slot",
-        "NewCharacterButton": "New Character"
+        "NewCharacterButton": "New Character",
+
+        "UseCharacterButton": "Use",
+        "DeleteCharacterButton": "Delete"
     },
     "CharacterCreationScreen": {
         "Header": "Create Character",

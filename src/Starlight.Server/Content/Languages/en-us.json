@@ -5,5 +5,14 @@
     },
     "Login": {
         "InvalidUsernamePassword": "Invalid username or password."
+    },
+    "CreateCharacter": {
+        "AccountNotFound": "Account not found.",
+        "SlotNotEmpty": "This character slot is not empty!",
+        "CharacterNameTaken": "This character name has already been taken."
+    },
+    "DeleteCharacter": {
+        "AccountNotFound": "Account not found.",
+        "SlotEmpty": "This character slot is empty!"
     }
 }

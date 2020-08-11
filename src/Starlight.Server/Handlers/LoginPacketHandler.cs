@@ -28,11 +28,14 @@ namespace Starlight.Server.Handlers
                 return;
             }
 
+            requestContext.ConnectedUserManager.AddUser(requestContext.ConnectionId, new RequestUser(user.Id));
+
             var characters = user.Characters.Select(x => new MenuCharacterDetails()
             {
                 Id = x.Id,
+                Slot = x.Slot,
                 Name = x.Name
-            }).ToArray();
+            }).ToArray(); 
 
             requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(true, string.Empty));
             requestContext.Server.SendPacket(requestContext.ConnectionId, new MenuCharacterDetailsPacket(characters));

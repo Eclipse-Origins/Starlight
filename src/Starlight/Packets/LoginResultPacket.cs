@@ -5,14 +5,9 @@ using System.Text;
 
 namespace Starlight.Packets
 {
-    public class LoginResultPacket : AbstractPacket
+    public class LoginResultPacket : AbstractResultPacket
     {
-        public bool Succeeded { get; set; }
-        public string Message { get; set; }
-
-        public LoginResultPacket(bool succeeded, string message) {
-            this.Succeeded = succeeded;
-            this.Message = message;
+        public LoginResultPacket(bool succeeded, string message) : base(succeeded, message) {
         }
     }
 }
