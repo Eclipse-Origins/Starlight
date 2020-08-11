@@ -28,13 +28,12 @@ namespace Starlight.Server.Handlers
                 return;
             }
 
-            // TODO: Check if character name taken
+            // TODO: Whitelist allowed characters
+
             if (requestContext.DbContext.Characters.Where(x => x.Name.ToLower() == packet.Name.ToLower()).Any()) {
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.CharacterNameTaken")));
                 return;
             }
-
-            // TODO: Whitelist allowed characters
 
             var character = new Character()
             {
