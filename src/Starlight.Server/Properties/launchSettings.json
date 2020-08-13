@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Starlight.Server": {
+      "commandName": "Project"
+    }
+  }
+}

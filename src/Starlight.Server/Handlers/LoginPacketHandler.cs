@@ -28,7 +28,7 @@ namespace Starlight.Server.Handlers
                 return;
             }
 
-            requestContext.ConnectedUserManager.AddUser(requestContext.ConnectionId, new RequestUser(user.Id));
+            requestContext.ConnectedUserManager.AddUser(requestContext.ConnectionId, new RequestUser(user.Id, packet.ClientType));
 
             var characters = user.Characters.Select(x => new MenuCharacterDetails()
             {
