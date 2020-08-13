@@ -11,15 +11,17 @@ namespace Starlight.Editors.Network
     public class NetworkDispatch : AbstractNetworkDispatch<RequestContext>
     {
         private readonly StarlightClient starlightClient;
+        private readonly FormContainer formContainer;
 
-        public NetworkDispatch(StarlightClient starlightClient) : base(typeof(NetworkDispatch).Assembly) {
+        public NetworkDispatch(StarlightClient starlightClient, FormContainer formContainer) : base(typeof(NetworkDispatch).Assembly) {
             this.starlightClient = starlightClient;
+            this.formContainer = formContainer;
 
             Task.Run(ProcessNetworkMessages);
         }
 
         protected override RequestContext BuildRequestContext(int connectionId) {
-            return new RequestContext(connectionId, starlightClient);
+            return new RequestContext(connectionId, starlightClient, formContainer);
         }
 
         public void ProcessNetworkMessages() {

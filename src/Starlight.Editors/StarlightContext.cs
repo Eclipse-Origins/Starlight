@@ -15,12 +15,15 @@ namespace Starlight.Editors
         public StarlightClient NetworkClient { get; }
         public NetworkDispatch NetworkDispatch { get; }
 
+        public FormContainer FormContainer { get; }
+
         public StarlightContext(string workingDirectory) {
             this.WorkingDirectory = workingDirectory;
 
-            this.NetworkClient = new StarlightClient(new Telepathy.Client());
+            this.FormContainer = new FormContainer(this);
 
-            this.NetworkDispatch = new NetworkDispatch(this.NetworkClient);
+            this.NetworkClient = new StarlightClient(new Telepathy.Client());
+            this.NetworkDispatch = new NetworkDispatch(this.NetworkClient, this.FormContainer);
 
             this.NetworkDispatch.ResolveHandlers();
         }

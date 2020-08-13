@@ -51,7 +51,7 @@
             this.usernameTextBox.Location = new System.Drawing.Point(12, 50);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(349, 27);
-            this.usernameTextBox.TabIndex = 2;
+            this.usernameTextBox.TabIndex = 0;
             // 
             // darkLabel2
             // 
@@ -71,7 +71,7 @@
             this.passwordTextBox.Location = new System.Drawing.Point(12, 120);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(349, 27);
-            this.passwordTextBox.TabIndex = 2;
+            this.passwordTextBox.TabIndex = 1;
             this.passwordTextBox.UseSystemPasswordChar = true;
             // 
             // loginButton
@@ -80,7 +80,7 @@
             this.loginButton.Name = "loginButton";
             this.loginButton.Padding = new System.Windows.Forms.Padding(5);
             this.loginButton.Size = new System.Drawing.Size(127, 36);
-            this.loginButton.TabIndex = 3;
+            this.loginButton.TabIndex = 2;
             this.loginButton.Text = "Login";
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
@@ -107,6 +107,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login - Eclipse Starlight";
             this.ResumeLayout(false);
             this.PerformLayout();

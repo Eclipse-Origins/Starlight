@@ -12,17 +12,14 @@ using System.Windows.Forms;
 
 namespace Starlight.Editors
 {
-    public partial class LoginForm : DarkForm
+    public partial class LoginForm : StarlightForm
     {
-        private readonly StarlightContext starlightContext;
-
-        public LoginForm(StarlightContext starlightContext) {
+        public LoginForm(StarlightContext starlightContext) : base(starlightContext) {
             InitializeComponent();
-            this.starlightContext = starlightContext;
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            starlightContext.NetworkClient.SendPacket(new LoginPacket(ClientType.Editor, usernameTextBox.Text, passwordTextBox.Text));
+            Context.NetworkClient.SendPacket(new LoginPacket(ClientType.Editor, usernameTextBox.Text, passwordTextBox.Text));
         }
     }
 }

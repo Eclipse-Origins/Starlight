@@ -14,15 +14,18 @@ namespace Starlight.Editors
         /// </summary>
         [STAThread]
         static void Main() {
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             var starlightContext = new StarlightContext(Directory.GetCurrentDirectory());
 
             starlightContext.LoadContent();
             starlightContext.Connect();
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm(starlightContext));
+            starlightContext.FormContainer.ChangeForm<LoginForm>();
+
+            Application.Run();
         }
     }
 }
