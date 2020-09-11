@@ -64,7 +64,7 @@
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(3, 2, 0, 2);
-            this.menu.Size = new System.Drawing.Size(1325, 24);
+            this.menu.Size = new System.Drawing.Size(1341, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "darkMenuStrip1";
             // 
@@ -98,9 +98,9 @@
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.propertyGrid1.Location = new System.Drawing.Point(1106, 24);
+            this.propertyGrid1.Location = new System.Drawing.Point(1122, 24);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(219, 966);
+            this.propertyGrid1.Size = new System.Drawing.Size(219, 1030);
             this.propertyGrid1.TabIndex = 1;
             // 
             // darkToolStrip1
@@ -114,7 +114,7 @@
             this.darkToolStrip1.Location = new System.Drawing.Point(269, 24);
             this.darkToolStrip1.Name = "darkToolStrip1";
             this.darkToolStrip1.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.darkToolStrip1.Size = new System.Drawing.Size(837, 35);
+            this.darkToolStrip1.Size = new System.Drawing.Size(853, 35);
             this.darkToolStrip1.TabIndex = 2;
             this.darkToolStrip1.Text = "darkToolStrip1";
             // 
@@ -139,7 +139,7 @@
             this.tilesGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tilesGroupBox.Location = new System.Drawing.Point(0, 43);
             this.tilesGroupBox.Name = "tilesGroupBox";
-            this.tilesGroupBox.Size = new System.Drawing.Size(269, 923);
+            this.tilesGroupBox.Size = new System.Drawing.Size(269, 987);
             this.tilesGroupBox.TabIndex = 3;
             this.tilesGroupBox.TabStop = false;
             this.tilesGroupBox.Text = "Tiles";
@@ -152,7 +152,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 71);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(263, 849);
+            this.panel4.Size = new System.Drawing.Size(263, 913);
             this.panel4.TabIndex = 8;
             // 
             // tilesetPanel
@@ -160,6 +160,7 @@
             this.tilesetPanel.BackColor = System.Drawing.Color.White;
             this.tilesetPanel.Location = new System.Drawing.Point(0, 0);
             this.tilesetPanel.Name = "tilesetPanel";
+            this.tilesetPanel.Selection = null;
             this.tilesetPanel.Size = new System.Drawing.Size(234, 405);
             this.tilesetPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.tilesetPanel.TabIndex = 0;
@@ -233,7 +234,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(269, 966);
+            this.panel2.Size = new System.Drawing.Size(269, 1030);
             this.panel2.TabIndex = 5;
             // 
             // panel3
@@ -242,14 +243,14 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(269, 59);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(837, 931);
+            this.panel3.Size = new System.Drawing.Size(853, 995);
             this.panel3.TabIndex = 6;
             // 
             // MapEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1325, 990);
+            this.ClientSize = new System.Drawing.Size(1341, 1054);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.darkToolStrip1);
             this.Controls.Add(this.panel2);
