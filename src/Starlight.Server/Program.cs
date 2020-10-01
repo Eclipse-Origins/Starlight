@@ -3,20 +3,28 @@ using Starlight.Server.Network;
 using Starlight.Translations;
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Starlight.Server
 {
     class Program
     {
-        static void Main(string[] args) {
+        static int Main(string[] args)
+        {
             Console.WriteLine("Starlight Server");
+#if DEBUG
+            //hardcoded debug variables
+            var configPath = "config.development.json";
+#else
+            if (args.Length == 0)
+            {
+                Console.WriteLine("No configuration file found!");
+                return 2;
+            }
+            var configPath = args[0];
+#endif
 
-            var configuration = LoadConfiguration();
+            var configuration = LoadConfiguration(configPath);
 
             TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
 
@@ -28,30 +36,32 @@ namespace Starlight.Server
             networkDispatch.ResolveHandlers();
 
             var isRunning = true;
-            while (isRunning) {
-                while (server.Server.GetNextMessage(out var msg)) {
-                    switch (msg.eventType) {
+            while (isRunning)
+            {
+                while (server.Server.GetNextMessage(out var msg))
+                {
+                    var logstamp = DateTime.Now.ToString() + " [" + msg.connectionId + "] ";
+                    switch (msg.eventType)
+                    {
                         case Telepathy.EventType.Connected:
-                            Console.WriteLine(msg.connectionId + " Connected");
+                            Console.WriteLine(logstamp + "New connection from " + server.Server.GetClientAddress(msg.connectionId));
                             break;
                         case Telepathy.EventType.Data:
                             networkDispatch.HandleData(msg.connectionId, msg.data);
                             break;
                         case Telepathy.EventType.Disconnected:
-                            Console.WriteLine(msg.connectionId + " Disconnected");
+                            Console.WriteLine(logstamp + " Disconnected");
                             break;
                     }
                 }
 
                 Thread.Sleep(1);
             }
+            return 0;
         }
 
-        private static Configuration LoadConfiguration() {
-#if DEBUG
-            var configPath = "config.development.json";
-#endif
-
+        private static Configuration LoadConfiguration(String configPath)
+        {
             return Configuration.Read(configPath);
         }
 
