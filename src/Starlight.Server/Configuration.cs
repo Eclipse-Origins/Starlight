@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Starlight.Server
 {
@@ -11,7 +8,8 @@ namespace Starlight.Server
         public string ConnectionString { get; set; }
         public int Port { get; set; }
 
-        public static Configuration Read(string path) {
+        public static Configuration Read(string path)
+        {
             var serializer = JsonSerializer.Create();
 
             using var fileStream = new FileStream(path, FileMode.Open);

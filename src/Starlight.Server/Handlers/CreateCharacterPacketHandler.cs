@@ -5,32 +5,33 @@ using Starlight.Server.Handlers.Core;
 using Starlight.Server.Models;
 using Starlight.Server.Network;
 using Starlight.Translations;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Starlight.Server.Handlers
 {
     public class CreateCharacterPacketHandler : AbstractPacketHandler<CreateCharacterPacket>
     {
-        public override void HandlePacket(RequestContext requestContext, CreateCharacterPacket packet) {
+        public override void HandlePacket(RequestContext requestContext, CreateCharacterPacket packet)
+        {
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Id == requestContext.User.Id)
                                                      .FirstOrDefault();
-            if (user == null) {
+            if (user == null)
+            {
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.AccountNotFound")));
                 return;
             }
 
-            if (user.Characters.Where(x => x.Slot == packet.Slot).Any()) {
+            if (user.Characters.Where(x => x.Slot == packet.Slot).Any())
+            {
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.SlotNotEmpty")));
                 return;
             }
 
             // TODO: Whitelist allowed characters
 
-            if (requestContext.DbContext.Characters.Where(x => x.Name.ToLower() == packet.Name.ToLower()).Any()) {
+            if (requestContext.DbContext.Characters.Where(x => x.Name.ToLower() == packet.Name.ToLower()).Any())
+            {
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.CharacterNameTaken")));
                 return;
             }

@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Starlight.Server.Security
 {
     public class PasswordHasher
     {
-        public byte[] GenerateSalt() {
+        public byte[] GenerateSalt()
+        {
             byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create()) {
+            using (var rng = RandomNumberGenerator.Create())
+            {
                 rng.GetBytes(salt);
             }
 
             return salt;
         }
 
-        public GeneratedPassword HashPassword(string password) {
+        public GeneratedPassword HashPassword(string password)
+        {
             var salt = GenerateSalt();
 
             var passwordHash = HashPassword(password, salt);
@@ -27,7 +28,8 @@ namespace Starlight.Server.Security
                 passwordHash: Convert.ToBase64String(passwordHash));
         }
 
-        private byte[] HashPassword(string password, byte[] salt) {
+        private byte[] HashPassword(string password, byte[] salt)
+        {
             return KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
@@ -36,7 +38,8 @@ namespace Starlight.Server.Security
                 numBytesRequested: 256 / 8);
         }
 
-        public bool VerifyPassword(string actualPassword, string salt, string testPassword) {
+        public bool VerifyPassword(string actualPassword, string salt, string testPassword)
+        {
             var saltBytes = Convert.FromBase64String(salt);
 
             var actualPasswordBytes = Convert.FromBase64String(actualPassword);

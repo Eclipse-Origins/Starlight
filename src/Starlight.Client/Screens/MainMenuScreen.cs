@@ -1,14 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Myra.Graphics2D.Brushes;
-using Myra.Graphics2D.UI;
-using Starlight.Client.Rendering;
+﻿using Myra.Graphics2D.UI;
 using Starlight.Client.Screens.Core;
 using Starlight.Client.UI;
 using Starlight.Packets;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Starlight.Client.Screens
 {
@@ -31,10 +25,12 @@ namespace Starlight.Client.Screens
             public TextButton RegisterButton { get; set; }
         }
 
-        public MainMenuScreen(ScreenContext screenContext) : base(screenContext) {
+        public MainMenuScreen(ScreenContext screenContext) : base(screenContext)
+        {
         }
 
-        protected override void OnLayout(StarlightGrid rootUI) {
+        protected override void OnLayout(StarlightGrid rootUI)
+        {
             base.OnLayout(rootUI);
 
             this.UI.LoginCommandButton.Click += LoginCommandButton_Click;
@@ -44,14 +40,16 @@ namespace Starlight.Client.Screens
             this.UI.RegisterButton.Click += RegisterButton_Click;
         }
 
-        private void LoginButton_Click(object sender, EventArgs e) {
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
             var username = UI.LoginUsernameTextBox.Text;
             var password = UI.LoginPasswordTextBox.Text;
 
             Context.NetworkClient.SendPacket(new LoginPacket(ClientType.Game, username, password));
         }
 
-        private void RegisterButton_Click(object sender, EventArgs e) {
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
             var username = UI.RegisterUsernameTextBox.Text;
             var password = UI.RegisterPasswordTextBox.Text;
             var confirmPassword = UI.RegisterConfirmPasswordTextBox.Text;
@@ -59,27 +57,32 @@ namespace Starlight.Client.Screens
             Context.NetworkClient.SendPacket(new RegisterPacket(username, password));
         }
 
-        private void RegisterCommandButton_Click(object sender, EventArgs e) {
+        private void RegisterCommandButton_Click(object sender, EventArgs e)
+        {
             HidePanels();
             this.UI.RegisterPanel.Visible = true;
         }
 
-        private void LoginCommandButton_Click(object sender, EventArgs e) {
+        private void LoginCommandButton_Click(object sender, EventArgs e)
+        {
             HidePanels();
             this.UI.LoginPanel.Visible = true;
         }
 
-        private void HidePanels() {
+        private void HidePanels()
+        {
             this.UI.LoginPanel.Visible = false;
             this.UI.RegisterPanel.Visible = false;
         }
 
-        public void AnnounceRegistration(bool succeeded, string message) {
+        public void AnnounceRegistration(bool succeeded, string message)
+        {
             this.UI.RegisterUsernameTextBox.Text = string.Empty;
             this.UI.RegisterPasswordTextBox.Text = string.Empty;
             this.UI.RegisterConfirmPasswordTextBox.Text = string.Empty;
 
-            if (succeeded) {
+            if (succeeded)
+            {
                 HidePanels();
                 this.UI.LoginPanel.Visible = true;
             }

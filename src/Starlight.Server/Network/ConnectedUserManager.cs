@@ -1,7 +1,4 @@
-﻿using Starlight.Server.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Starlight.Server.Network
 {
@@ -9,19 +6,23 @@ namespace Starlight.Server.Network
     {
         private readonly Dictionary<int, RequestUser> users;
 
-        public ConnectedUserManager() {
+        public ConnectedUserManager()
+        {
             this.users = new Dictionary<int, RequestUser>();
         }
 
-        public bool TryGetUser(int connectionId, out RequestUser user) {
+        public bool TryGetUser(int connectionId, out RequestUser user)
+        {
             return this.users.TryGetValue(connectionId, out user);
         }
 
-        public void AddUser(int connectionId, RequestUser user) {
+        public void AddUser(int connectionId, RequestUser user)
+        {
             this.users.Add(connectionId, user);
         }
 
-        public void RemoveUser(int connectionId) {
+        public void RemoveUser(int connectionId)
+        {
             this.users.Remove(connectionId);
         }
     }

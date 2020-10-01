@@ -1,14 +1,14 @@
 ﻿using Starlight.Editors.Network;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Starlight.Editors.Handlers.Core
 {
     public abstract class AbstractFormPacketHandler<TPacket> : AbstractPacketHandler<TPacket>
     {
-        public override void HandlePacket(RequestContext requestContext, TPacket packet) {
-            if (requestContext.FormContainer.PrimaryForm.InvokeRequired) {
+        public override void HandlePacket(RequestContext requestContext, TPacket packet)
+        {
+            if (requestContext.FormContainer.PrimaryForm.InvokeRequired)
+            {
                 requestContext.FormContainer.PrimaryForm.Invoke(new Action<RequestContext, TPacket>(HandlePacket), requestContext, packet);
                 return;
             }

@@ -1,7 +1,4 @@
 ﻿using Starlight.Client.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Starlight.Client.Screens.Core
 {
@@ -9,20 +6,24 @@ namespace Starlight.Client.Screens.Core
     {
         public TControls UI { get; }
 
-        public AbstractScreen(ScreenContext screenContext) : base(screenContext) {
+        public AbstractScreen(ScreenContext screenContext) : base(screenContext)
+        {
             this.UI = new TControls();
         }
 
-        protected override void OnMarkupLoaded(StarlightGrid rootUI) {
+        protected override void OnMarkupLoaded(StarlightGrid rootUI)
+        {
             base.OnMarkupLoaded(rootUI);
 
-            foreach (var property in UI.GetType().GetProperties()) {
+            foreach (var property in UI.GetType().GetProperties())
+            {
                 var widget = rootUI.FindWidgetById(property.Name);
 
-                if (widget != null) {
+                if (widget != null)
+                {
                     property.SetValue(UI, widget);
                 }
-            } 
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Starlight.Editors
@@ -11,12 +9,15 @@ namespace Starlight.Editors
 
         public Form PrimaryForm { get; private set; }
 
-        public FormContainer(StarlightContext context) {
+        public FormContainer(StarlightContext context)
+        {
             this.context = context;
         }
 
-        public TForm ChangeForm<TForm>() where TForm : Form {
-            if (this.PrimaryForm != null) {
+        public TForm ChangeForm<TForm>() where TForm : Form
+        {
+            if (this.PrimaryForm != null)
+            {
                 this.PrimaryForm.FormClosed -= PrimaryForm_FormClosed;
                 this.PrimaryForm.Close();
             }
@@ -30,7 +31,8 @@ namespace Starlight.Editors
             return form;
         }
 
-        private void PrimaryForm_FormClosed(object sender, FormClosedEventArgs e) {
+        private void PrimaryForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
             Application.Exit();
         }
     }

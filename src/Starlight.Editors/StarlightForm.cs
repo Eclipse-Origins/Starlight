@@ -1,7 +1,4 @@
 ﻿using DarkUI.Forms;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Starlight.Editors
 {
@@ -9,10 +6,12 @@ namespace Starlight.Editors
     {
         public StarlightContext Context { get; }
 
-        public StarlightForm() {
+        public StarlightForm()
+        {
         }
 
-        public StarlightForm(StarlightContext context) {
+        public StarlightForm(StarlightContext context)
+        {
             this.Context = context;
         }
     }

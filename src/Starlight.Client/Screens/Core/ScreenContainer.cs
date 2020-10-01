@@ -4,7 +4,6 @@ using Starlight.Client.Resources;
 using Starlight.Network;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using MyraUI = Myra.Graphics2D.UI;
 
@@ -24,7 +23,8 @@ namespace Starlight.Client.Screens.Core
 
         public bool HasActiveScreen => this.Screen != null;
 
-        public ScreenContainer(ResourceLocator resourceLocator, StarlightClient networkClient, MyraUI.Desktop desktop) {
+        public ScreenContainer(ResourceLocator resourceLocator, StarlightClient networkClient, MyraUI.Desktop desktop)
+        {
             this.resourceLocator = resourceLocator;
             this.networkClient = networkClient;
             this.desktop = desktop;
@@ -32,15 +32,18 @@ namespace Starlight.Client.Screens.Core
             this.screenStack = new Stack<IScreen>();
         }
 
-        public void LoadContent(GraphicsDevice graphicsDevice) {
+        public void LoadContent(GraphicsDevice graphicsDevice)
+        {
             this.graphicsDevice = graphicsDevice;
 
-            if (Screen != null) {
+            if (Screen != null)
+            {
                 Screen.PrepareResources(graphicsDevice);
             }
         }
 
-        public TScreen PushScreen<TScreen>() where TScreen : IScreen {
+        public TScreen PushScreen<TScreen>() where TScreen : IScreen
+        {
             var screen = BuildScreen<TScreen>();
 
             this.screenStack.Push(screen);
@@ -50,23 +53,28 @@ namespace Starlight.Client.Screens.Core
             return screen;
         }
 
-        public void PopScreen() {
-            if (this.screenStack.Count > 0) {
+        public void PopScreen()
+        {
+            if (this.screenStack.Count > 0)
+            {
                 screenStack.Pop();
 
-                if (screenStack.TryPeek(out var screen)) {
+                if (screenStack.TryPeek(out var screen))
+                {
                     SetScreen(screen);
                 }
             }
         }
 
-        public TScreen ChangeScreen<TScreen>() where TScreen : IScreen {
+        public TScreen ChangeScreen<TScreen>() where TScreen : IScreen
+        {
             this.screenStack.Clear();
 
             return PushScreen<TScreen>();
         }
 
-        private TScreen BuildScreen<TScreen>() where TScreen : IScreen {
+        private TScreen BuildScreen<TScreen>() where TScreen : IScreen
+        {
             var screenContext = new ScreenContext(this, resourceLocator, networkClient);
 
             var screen = (TScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
@@ -77,7 +85,8 @@ namespace Starlight.Client.Screens.Core
             return screen;
         }
 
-        private void SetScreen(IScreen screen) {
+        private void SetScreen(IScreen screen)
+        {
             desktop.Root = screen.RootUI;
 
             this.Screen = screen;

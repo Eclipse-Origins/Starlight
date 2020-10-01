@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Starlight.Server.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Starlight.Server.Data
 {
@@ -11,7 +8,8 @@ namespace Starlight.Server.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Character> Characters { get; set; }
 
-        public ApplicationDbContext(DbContextOptions options) : base(options) {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
         }
     }
 }

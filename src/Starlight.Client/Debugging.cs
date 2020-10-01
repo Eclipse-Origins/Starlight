@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starlight.Client
+﻿namespace Starlight.Client
 {
     public static class Debugging
     {

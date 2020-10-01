@@ -2,11 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Rendering;
 using Starlight.Client.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using MyraUI = Myra.Graphics2D.UI;
 
 namespace Starlight.Client.Screens.Core
 {

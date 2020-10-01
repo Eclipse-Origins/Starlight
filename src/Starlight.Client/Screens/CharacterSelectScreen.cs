@@ -4,9 +4,7 @@ using Starlight.Client.UI;
 using Starlight.Models;
 using Starlight.Packets;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Starlight.Client.Screens
 {
@@ -27,53 +25,65 @@ namespace Starlight.Client.Screens
         int slot;
         MenuCharacterDetails[] characterDetails;
 
-        public CharacterSelectScreen(ScreenContext screenContext) : base(screenContext) {
+        public CharacterSelectScreen(ScreenContext screenContext) : base(screenContext)
+        {
         }
 
-        protected override void OnLayout(StarlightGrid rootUI) {
+        protected override void OnLayout(StarlightGrid rootUI)
+        {
             UI.NewCharacterButton.Click += NewCharacterButton_Click;
 
             UI.DeleteCharacterButton.Click += DeleteCharacterButton_Click;
         }
 
-        private void DeleteCharacterButton_Click(object sender, EventArgs e) {
+        private void DeleteCharacterButton_Click(object sender, EventArgs e)
+        {
             Context.NetworkClient.SendPacket(new DeleteCharacterPacket(slot));
         }
 
-        private void NewCharacterButton_Click(object sender, EventArgs e) {
-            var screen = Context.ScreenContainer.PushScreen<CharacterCreationScreen>(); 
+        private void NewCharacterButton_Click(object sender, EventArgs e)
+        {
+            var screen = Context.ScreenContainer.PushScreen<CharacterCreationScreen>();
 
             screen.SetSlot(slot);
         }
 
-        private void HideAllPanels() {
+        private void HideAllPanels()
+        {
             UI.EmptySlotPanel.Visible = false;
             UI.CharacterDetailsPanel.Visible = false;
         }
 
-        public void SetCharacterDetails(MenuCharacterDetails[] characterDetails) {
+        public void SetCharacterDetails(MenuCharacterDetails[] characterDetails)
+        {
             this.characterDetails = characterDetails;
 
             SetCharacterSlot(0);
         }
 
-        private void SetCharacterSlot(int slot) {
+        private void SetCharacterSlot(int slot)
+        {
             this.slot = slot;
 
             var character = characterDetails.Where(x => x.Slot == slot).FirstOrDefault();
-            if (character == null) {
+            if (character == null)
+            {
                 SetEmptySlot();
-            } else {
+            }
+            else
+            {
                 SetCharacterDetails(character);
             }
         }
 
-        private void SetEmptySlot() {
+        private void SetEmptySlot()
+        {
             HideAllPanels();
             UI.EmptySlotPanel.Visible = true;
         }
 
-        private void SetCharacterDetails(MenuCharacterDetails menuCharacterDetails) {
+        private void SetCharacterDetails(MenuCharacterDetails menuCharacterDetails)
+        {
             HideAllPanels();
             UI.CharacterDetailsPanel.Visible = true;
 

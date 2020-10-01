@@ -1,10 +1,7 @@
 ﻿using Starlight.Editors.Network;
 using Starlight.Network;
 using Starlight.Translations;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Starlight.Editors
 {
@@ -17,7 +14,8 @@ namespace Starlight.Editors
 
         public FormContainer FormContainer { get; }
 
-        public StarlightContext(string workingDirectory) {
+        public StarlightContext(string workingDirectory)
+        {
             this.WorkingDirectory = workingDirectory;
 
             this.FormContainer = new FormContainer(this);
@@ -28,11 +26,13 @@ namespace Starlight.Editors
             this.NetworkDispatch.ResolveHandlers();
         }
 
-        public void LoadContent() {
+        public void LoadContent()
+        {
             TranslationManager.Instance.ImportFromDocument(Path.Combine(WorkingDirectory, "Content", "Languages", "en-us.json"));
         }
 
-        public void Connect() {
+        public void Connect()
+        {
             this.NetworkClient.Client.Connect("localhost", 1338);
         }
     }
