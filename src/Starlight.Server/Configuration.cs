@@ -14,13 +14,10 @@ namespace Starlight.Server
         public static Configuration Read(string path) {
             var serializer = JsonSerializer.Create();
 
-            using (var fileStream = new FileStream(path, FileMode.Open)) {
-                using (var streamReader = new StreamReader(fileStream)) {
-                    using (var jsonReader = new JsonTextReader(streamReader)) {
-                        return serializer.Deserialize<Configuration>(jsonReader);
-                    }
-                }
-            }
+            using var fileStream = new FileStream(path, FileMode.Open);
+            using var streamReader = new StreamReader(fileStream);
+            using var jsonReader = new JsonTextReader(streamReader);
+            return serializer.Deserialize<Configuration>(jsonReader);
         }
     }
 }
