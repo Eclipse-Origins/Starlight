@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Starlight.Models;
 using Starlight.Packets;
 using Starlight.Server.Handlers.Core;
@@ -17,13 +18,17 @@ namespace Starlight.Server.Handlers
         public override void HandlePacket(RequestContext requestContext, LoginPacket packet) {
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
+            Log.Information("[" + requestContext.ConnectionId + "] Login as user " + user.Username);
+
             if (user == null) {
+                Log.Error("[" + requestContext.ConnectionId + "] "+ TranslationManager.Instance.Translate("Login.InvalidUsernamePassword"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, TranslationManager.Instance.Translate("Login.InvalidUsernamePassword")));
                 return;
             }
 
             var passwordHasher = new PasswordHasher();
             if (!passwordHasher.VerifyPassword(user.PasswordHash, user.PasswordSalt, packet.Password)) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("Login.InvalidUsernamePassword"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new LoginResultPacket(false, TranslationManager.Instance.Translate("Login.InvalidUsernamePassword")));
                 return;
             }

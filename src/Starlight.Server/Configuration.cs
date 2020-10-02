@@ -10,7 +10,8 @@ namespace Starlight.Server
     {
         public string ConnectionString { get; set; }
         public int Port { get; set; }
-
+        public string LogFile { get; set; }
+        
         public static Configuration Read(string path) {
             var serializer = JsonSerializer.Create();
 
@@ -21,6 +22,15 @@ namespace Starlight.Server
                     }
                 }
             }
+        }
+
+
+
+        public override string ToString() {
+            var output = "ConnectionString: " + ConnectionString + "\r\n";
+            output += "Port: " + Port + "\r\n";
+            output += "LogFile: " + LogFile;
+            return output;
         }
     }
 }

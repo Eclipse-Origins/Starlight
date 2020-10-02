@@ -1,9 +1,7 @@
-﻿using Starlight.Models;
+﻿using Serilog;
+using Starlight.Models;
 using Starlight.Server.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Starlight.Server
 {
@@ -13,7 +11,7 @@ namespace Starlight.Server
             var dbContext = DbContextFactory.CreateApplicationDbContext(configuration.ConnectionString);
 
             if (!dbContext.Maps.Any()) {
-                Console.WriteLine("Creating initial map.");
+                Log.Information("Creating initial map.");
 
                 var map = Map.Create();
 

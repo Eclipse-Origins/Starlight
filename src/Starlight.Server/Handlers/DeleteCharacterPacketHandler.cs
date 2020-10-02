@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Starlight.Models;
 using Starlight.Packets;
 using Starlight.Server.Handlers.Core;
@@ -17,13 +18,17 @@ namespace Starlight.Server.Handlers
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Id == requestContext.User.Id)
                                                      .FirstOrDefault();
+            Log.Information("[" + requestContext.ConnectionId + "] Deleting character for user " + user.Username);
+
             if (user == null) {
+                Log.Error("[" + requestContext.ConnectionId + "] "+ TranslationManager.Instance.Translate("DeleteCharacter.AccountNotFound"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new DeleteCharacterResultPacket(false, TranslationManager.Instance.Translate("DeleteCharacter.AccountNotFound")));
                 return;
             }
 
             var character = user.Characters.Where(x => x.Slot == packet.Slot).FirstOrDefault();
             if (character == null) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("DeleteCharacter.SlotEmpty"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new DeleteCharacterResultPacket(false, TranslationManager.Instance.Translate("DeleteCharacter.SlotEmpty")));
                 return;
             }
