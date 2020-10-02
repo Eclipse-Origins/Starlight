@@ -1,4 +1,5 @@
 ﻿using MessagePack;
+using Serilog;
 using Starlight.Packets;
 using Starlight.Packets.Core;
 using System;
@@ -46,6 +47,9 @@ namespace Starlight.Network
                         handler.HandleGenericPacket(requestContext, packet);
 
                         OnRequestCompleted(requestContext);
+                    }
+                    else {
+                        Log.Warning("[" + connectionId + "] Possible hack attempt detected! PacketType: " + packetHeader.Type);
                     }
                 }
             }

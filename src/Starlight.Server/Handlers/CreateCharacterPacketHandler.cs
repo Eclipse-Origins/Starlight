@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Serilog;
 using Starlight.Models;
 using Starlight.Packets;
 using Starlight.Server.Handlers.Core;
@@ -17,12 +19,16 @@ namespace Starlight.Server.Handlers
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Id == requestContext.User.Id)
                                                      .FirstOrDefault();
+            Log.Information("[" + requestContext.ConnectionId + "] Creating character " + packet.Name);
+
             if (user == null) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("CreateCharacter.AccountNotFound"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.AccountNotFound")));
                 return;
             }
 
             if (user.Characters.Where(x => x.Slot == packet.Slot).Any()) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("CreateCharacter.SlotNotEmpty"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.SlotNotEmpty")));
                 return;
             }
@@ -30,6 +36,7 @@ namespace Starlight.Server.Handlers
             // TODO: Whitelist allowed characters
 
             if (requestContext.DbContext.Characters.Where(x => x.Name.ToLower() == packet.Name.ToLower()).Any()) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("CreateCharacter.CharacterNameTaken"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new CreateCharacterResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.CharacterNameTaken")));
                 return;
             }
@@ -39,7 +46,7 @@ namespace Starlight.Server.Handlers
                 Slot = packet.Slot,
                 Name = packet.Name
             };
-
+            
             user.Characters.Add(character);
 
             requestContext.DbContext.Users.Update(user);
