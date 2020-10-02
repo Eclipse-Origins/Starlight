@@ -1,7 +1,6 @@
-﻿using Starlight.Models;
+﻿using Serilog;
+using Starlight.Models;
 using Starlight.Server.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +18,12 @@ namespace Starlight.Server
                 dbContext.Database.Migrate();
             }
             catch {
-                Console.WriteLine("Error encountered during update!");
+                Log.Error("Error encountered during update!");
                 return;
             };
+          
             if (!dbContext.Maps.Any()) {
-                Console.WriteLine("Creating initial map.");
+                Log.Information("Creating initial map.");
 
                 var map = Map.Create();
 

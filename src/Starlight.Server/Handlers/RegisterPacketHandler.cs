@@ -1,4 +1,5 @@
-﻿using Starlight.Models;
+﻿using Serilog;
+using Starlight.Models;
 using Starlight.Packets;
 using Starlight.Server.Data;
 using Starlight.Server.Handlers.Core;
@@ -17,11 +18,12 @@ namespace Starlight.Server.Handlers
     {
         public override void HandlePacket(RequestContext requestContext, RegisterPacket packet) {
             // TODO: Whitelist allowed characters
-
+            Log.Information("[" + requestContext.ConnectionId + "] Creating user " + packet.Username);
             packet.Username = packet.Username.Trim();
 
             var user = requestContext.DbContext.Users.Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
             if (user != null) {
+                Log.Error("[" + requestContext.ConnectionId + "] "+ TranslationManager.Instance.Translate("Register.AccountExists"));
                 requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(false, TranslationManager.Instance.Translate("Register.AccountExists")));
                 return;
             }

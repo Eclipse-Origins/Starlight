@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,13 @@ namespace Starlight.Editors
         /// </summary>
         [STAThread]
         static void Main() {
+            Log.Logger = (ILogger)new LoggerConfiguration()
+                .WriteTo.File("editors.log")
+#if DEBUG
+                .WriteTo.Debug()
+                .MinimumLevel.Debug()
+#endif
+                .CreateLogger();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

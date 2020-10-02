@@ -1,4 +1,5 @@
-﻿using Starlight.Network;
+﻿using Serilog;
+using Starlight.Network;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -29,13 +30,13 @@ namespace Starlight.Editors.Network
                 while (starlightClient.Client.GetNextMessage(out var networkMessage)) {
                     switch (networkMessage.eventType) {
                         case Telepathy.EventType.Connected:
-                            Console.WriteLine("Connected");
+                            Log.Debug("Connected");
                             break;
                         case Telepathy.EventType.Data:
                             this.HandleData(networkMessage.connectionId, networkMessage.data);
                             break;
                         case Telepathy.EventType.Disconnected:
-                            Console.WriteLine("Disconnected");
+                            Log.Debug("Disconnected");
                             break;
                     }
                 }
