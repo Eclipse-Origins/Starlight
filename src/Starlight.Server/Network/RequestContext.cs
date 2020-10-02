@@ -23,17 +23,11 @@ namespace Starlight.Server.Network
             this.Server = server;
             this.ConnectedUserManager = connectedUserManager;
 
-            this.DbContext = new ApplicationDbContext(ConfigureDbContext(configuration));
+            this.DbContext = DbContextFactory.CreateApplicationDbContext(configuration.ConnectionString);
 
             if (this.ConnectedUserManager.TryGetUser(connectionId, out var user)) {
                 this.User = user;
             }
-        }
-
-        private DbContextOptions ConfigureDbContext(Configuration configuration) {
-            var optionBuilder = new DbContextOptionsBuilder().UseNpgsql(configuration.ConnectionString);
-
-            return optionBuilder.Options;
         }
 
         public void Dispose() {

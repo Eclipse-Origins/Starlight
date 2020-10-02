@@ -20,6 +20,8 @@ namespace Starlight.Server
 
             TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
 
+            Setup.RunSetup(configuration);
+
             // create and start the server
             var server = new StarlightServer(new Telepathy.Server());
             server.Server.Start(configuration.Port);
