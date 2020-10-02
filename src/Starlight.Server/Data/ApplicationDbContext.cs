@@ -3,6 +3,7 @@ using Starlight.Models;
 using Starlight.Server.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Starlight.Server.Data
@@ -31,6 +32,22 @@ namespace Starlight.Server.Data
 
             modelBuilder.Entity<MapTile>()
                         .HasKey(x => x.Id);
+        }
+
+        public override int SaveChanges() {
+            var entities = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            foreach (var entity in entities) {
+                if (entity.Entity is CoreDataModel coreDataModel) {
+                    coreDataModel.ModifiedAt = DateTimeOffset.UtcNow;
+
+                    if (entity.State == EntityState.Added) {
+                        coreDataModel.CreatedAt = DateTimeOffset.UtcNow;
+                    }
+                }
+            }
+
+            return base.SaveChanges();
         }
     }
 }
