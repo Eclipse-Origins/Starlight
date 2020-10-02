@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Starlight.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Starlight.Server.Models
+namespace Starlight.Models
 {
-    public class Character : AbstractModel
+    public class Character : CoreDataModel
     {
         public int Slot { get; set; }
         public string Name { get; set; }

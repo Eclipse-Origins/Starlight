@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Starlight.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Starlight.Server.Models
+namespace Starlight.Models
 {
-    public class User : AbstractModel
+    public class User : CoreDataModel
     {
         public string Username { get; set; }
 

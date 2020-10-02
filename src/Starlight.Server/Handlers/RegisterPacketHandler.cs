@@ -1,7 +1,7 @@
-﻿using Starlight.Packets;
+﻿using Starlight.Models;
+using Starlight.Packets;
 using Starlight.Server.Data;
 using Starlight.Server.Handlers.Core;
-using Starlight.Server.Models;
 using Starlight.Server.Network;
 using Starlight.Server.Security;
 using Starlight.Translations;

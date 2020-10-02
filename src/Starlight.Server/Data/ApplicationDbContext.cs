@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Starlight.Models;
-using Starlight.Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +19,12 @@ namespace Starlight.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                        .HasKey(x => x.Id);
+
+            modelBuilder.Entity<Character>()
+                        .HasKey(x => x.Id);
 
             modelBuilder.Entity<Map>()
                         .HasKey(x => x.Id);
