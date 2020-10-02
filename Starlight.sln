@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starlight.Server", "src\Sta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starlight.Client", "src\Starlight.Client\Starlight.Client.csproj", "{270CBA2D-18AB-43EC-A480-1BA627536A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starlight.Editors", "src\Starlight.Editors\Starlight.Editors.csproj", "{AE78F704-F8E0-4407-85B2-3098C7E5C6FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starlight.Editors", "src\Starlight.Editors\Starlight.Editors.csproj", "{AE78F704-F8E0-4407-85B2-3098C7E5C6FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD11D2D9-A539-4E6E-BE60-BAA6732F2789}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
