@@ -14,7 +14,6 @@ namespace Starlight.Client.Screens
     {
         public class Controls
         {
-
             public Grid EmptySlotPanel { get; set; }
             public TextButton NewCharacterButton { get; set; }
 
@@ -34,6 +33,12 @@ namespace Starlight.Client.Screens
             UI.NewCharacterButton.Click += NewCharacterButton_Click;
 
             UI.DeleteCharacterButton.Click += DeleteCharacterButton_Click;
+
+            UI.UseCharacterButton.Click += UseCharacterButton_Click;
+        }
+
+        private void UseCharacterButton_Click(object sender, EventArgs e) {
+            Context.NetworkClient.SendPacket(new UseCharacterPacket(slot));
         }
 
         private void DeleteCharacterButton_Click(object sender, EventArgs e) {

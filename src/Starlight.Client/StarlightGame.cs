@@ -91,6 +91,10 @@ namespace Starlight.Client
                 }
             }
 
+            if (!NetworkClient.Client.Connected && !NetworkClient.Client.Connecting) {
+                Connect();
+            }
+
             if (ScreenContainer.HasActiveScreen) {
                 ScreenContainer.Screen.Update(gameTime);
             }
