@@ -6,6 +6,7 @@ Prerequisites:
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) or [Visual Studio Code](https://code.visualstudio.com/)
 * [.NET Core 3.1](https://dotnet.microsoft.com/download) (can be installed with Visual Studio)
 * [PostgreSQL](https://www.postgresql.org/download/)
+* [Serilog](https://github.com/serilog/serilog/wiki/Getting-Started)
 
 ### Instructions
 

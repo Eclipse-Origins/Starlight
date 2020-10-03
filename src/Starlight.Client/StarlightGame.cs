@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra;
+using Serilog;
 using Starlight.Client.Network;
 using Starlight.Client.Rendering;
 using Starlight.Client.Resources;
@@ -80,13 +81,13 @@ namespace Starlight.Client
             while (NetworkClient.Client.GetNextMessage(out var networkMessage)) {
                 switch (networkMessage.eventType) {
                     case Telepathy.EventType.Connected:
-                        Console.WriteLine("Connected");
+                        Log.Verbose("Connected");
                         break;
                     case Telepathy.EventType.Data:
                         networkDispatch.HandleData(networkMessage.connectionId, networkMessage.data);
                         break;
                     case Telepathy.EventType.Disconnected:
-                        Console.WriteLine("Disconnected");
+                        Log.Verbose("Disconnected");
                         break;
                 }
             }
