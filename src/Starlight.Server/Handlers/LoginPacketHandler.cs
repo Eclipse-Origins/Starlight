@@ -18,7 +18,7 @@ namespace Starlight.Server.Handlers
         public override void HandlePacket(RequestContext requestContext, LoginPacket packet) {
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
-            Log.Information("[" + requestContext.ConnectionId + "] Login as user " + user.Username);
+            Log.Information("[" + requestContext.ConnectionId + "] Login as user " + packet.Username);
 
             if (user == null) {
                 Log.Error("[" + requestContext.ConnectionId + "] "+ TranslationManager.Instance.Translate("Login.InvalidUsernamePassword"));

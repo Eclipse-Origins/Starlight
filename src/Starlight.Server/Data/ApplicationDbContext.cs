@@ -7,12 +7,16 @@ using System.Text;
 
 namespace Starlight.Server.Data
 {
-    public class ApplicationDbContext : DbContext
-    {
+    public class ApplicationDbContext : DbContext {
         public DbSet<User> Users { get; set; }
         public DbSet<Character> Characters { get; set; }
 
         public DbSet<Map> Maps { get; set; }
+
+        public DbSet<GlobalData> GlobalData { get; set; }
+        public DbSet<GlobalTimeEvents> GlobalTimeEvents { get; set; }
+        public DbSet<GlobalConstellation> GlobalConstellation { get; set; }
+        public DbSet<Clock> Clock { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) {
         }
