@@ -13,7 +13,7 @@ namespace Starlight.Server
         public static void RunSetup(Configuration configuration) {
             
             var dbContext = DbContextFactory.CreateApplicationDbContext(configuration.ConnectionString);
-            Console.WriteLine("Updating database...");
+            Log.Information("Updating database...");
             try {
                 dbContext.Database.Migrate();
             }

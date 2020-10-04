@@ -18,7 +18,7 @@ namespace Starlight.Editors
             Log.Logger = (ILogger)new LoggerConfiguration()
                 .WriteTo.File("editors.log")
 #if DEBUG
-                .WriteTo.Debug()
+                .WriteTo.Console()
                 .MinimumLevel.Debug()
 #endif
                 .CreateLogger();
