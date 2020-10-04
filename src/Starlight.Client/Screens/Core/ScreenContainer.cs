@@ -12,6 +12,8 @@ namespace Starlight.Client.Screens.Core
 {
     public class ScreenContainer
     {
+        private readonly StarlightGame game;
+        private readonly ResourceCache resourceCache;
         private readonly ResourceLocator resourceLocator;
         private readonly StarlightClient networkClient;
         private readonly Desktop desktop;
@@ -24,7 +26,9 @@ namespace Starlight.Client.Screens.Core
 
         public bool HasActiveScreen => this.Screen != null;
 
-        public ScreenContainer(ResourceLocator resourceLocator, StarlightClient networkClient, MyraUI.Desktop desktop) {
+        public ScreenContainer(StarlightGame game, ResourceCache resourceCache, ResourceLocator resourceLocator, StarlightClient networkClient, MyraUI.Desktop desktop) {
+            this.game = game;
+            this.resourceCache = resourceCache;
             this.resourceLocator = resourceLocator;
             this.networkClient = networkClient;
             this.desktop = desktop;
@@ -67,7 +71,7 @@ namespace Starlight.Client.Screens.Core
         }
 
         private TScreen BuildScreen<TScreen>() where TScreen : IScreen {
-            var screenContext = new ScreenContext(this, resourceLocator, networkClient);
+            var screenContext = new ScreenContext(game, this, resourceCache, resourceLocator, networkClient);
 
             var screen = (TScreen)Activator.CreateInstance(typeof(TScreen), screenContext);
 

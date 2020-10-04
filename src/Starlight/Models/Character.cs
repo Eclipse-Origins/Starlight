@@ -9,5 +9,7 @@ namespace Starlight.Models
     {
         public int Slot { get; set; }
         public string Name { get; set; }
+
+        public int Sprite { get; set; }
     }
 }

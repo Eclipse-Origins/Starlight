@@ -27,6 +27,7 @@ namespace Starlight.Client
 
         public bool IsRunning { get; private set; }
 
+        public ResourceCache ResourceCache { get; }
         public ResourceLocator ResourceLocator { get; }
         public RenderContext RenderContext { get; private set; }
         public StarlightClient NetworkClient { get; }
@@ -39,9 +40,10 @@ namespace Starlight.Client
             this.desktop = new MyraUI.Desktop();
 
             this.ResourceLocator = new ResourceLocator(workingDirectory);
+            this.ResourceCache = new ResourceCache();
             this.NetworkClient = new StarlightClient(new Telepathy.Client());
 
-            this.ScreenContainer = new ScreenContainer(ResourceLocator, NetworkClient, desktop);
+            this.ScreenContainer = new ScreenContainer(this, ResourceCache, ResourceLocator, NetworkClient, desktop);
 
             this.networkDispatch = new NetworkDispatch(this.NetworkClient, this.ScreenContainer);
             this.networkDispatch.ResolveHandlers();
@@ -65,6 +67,7 @@ namespace Starlight.Client
 
             var spriteBatch = new SpriteBatch(GraphicsDevice);
             RenderContext = new RenderContext(GraphicsDevice, spriteBatch);
+            this.ResourceCache.UpdateGraphcisDevice(GraphicsDevice);
 
             MyraEnvironment.Game = this;
 
