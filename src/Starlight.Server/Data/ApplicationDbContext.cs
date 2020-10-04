@@ -7,7 +7,8 @@ using System.Text;
 
 namespace Starlight.Server.Data
 {
-    public class ApplicationDbContext : DbContext {
+    public class ApplicationDbContext : DbContext 
+    {
         public DbSet<User> Users { get; set; }
         public DbSet<Character> Characters { get; set; }
 
