@@ -10,12 +10,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 using System.Reflection;
+using Starlight.Server.GameLogic;
 
 namespace Starlight.Server
 {
     class Program
     {
         static void Main(string[] args) {
+            var server = new StarlightServer(new Telepathy.Server());
+            Thread chronos = null;
+
             try {
                 var configuration = LoadConfiguration();
                 if (configuration.LogFile == null) {
@@ -37,14 +41,15 @@ namespace Starlight.Server
                 TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
                 Setup.RunSetup(configuration);
 
-                // create and start the server
-                var server = new StarlightServer(new Telepathy.Server());
+                // start the server
                 server.Server.Start(configuration.Port);
 
                 var networkDispatch = new NetworkDispatch(configuration, server);
                 networkDispatch.ResolveHandlers();
                 Log.Debug("Server is running...");
                 var isRunning = true;
+                chronos = new Thread(new ThreadStart(() => PersistentUniverse.DoTick(configuration.ConnectionString)));
+                chronos.Start();
                 while (isRunning) {
                     isRunning = server.Server.Active;
                     while (server.Server.GetNextMessage(out var msg)) {
@@ -62,12 +67,13 @@ namespace Starlight.Server
                     }
                     Thread.Sleep(1);
                 }
-                server.Server.Stop();
+                chronos.Abort();
             }
             catch (Exception e) {
                 Log.Fatal(e, "Error found in Main Loop");
             }
             Log.Information("Stopping server...");
+            server.Server.Stop();
             Log.CloseAndFlush();
         }
 
@@ -80,7 +86,7 @@ namespace Starlight.Server
             try {
                 return Configuration.Read(configPath); 
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 return new Configuration();
             }
