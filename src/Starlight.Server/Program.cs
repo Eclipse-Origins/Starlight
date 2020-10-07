@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Serilog;
 using System.Reflection;
 using Starlight.Server.GameLogic;
+using Starlight.Server.Data;
+using System.Linq;
 
 namespace Starlight.Server
 {
@@ -18,8 +20,7 @@ namespace Starlight.Server
     {
         static void Main(string[] args) {
             var server = new StarlightServer(new Telepathy.Server());
-            Thread chronos = null;
-
+            
             try {
                 var configuration = LoadConfiguration();
                 if (configuration.LogFile == null) {
@@ -29,7 +30,7 @@ namespace Starlight.Server
                 .WriteTo.Console()
                 .WriteTo.File(path: configuration.LogFile, rollingInterval: RollingInterval.Day)
 #if DEBUG
-                .MinimumLevel.Debug()
+                .MinimumLevel.Verbose()
 #endif
                 .CreateLogger();
                 if (configuration.ConnectionString == null || configuration.Port == 0) {
@@ -45,11 +46,28 @@ namespace Starlight.Server
                 server.Server.Start(configuration.Port);
 
                 var networkDispatch = new NetworkDispatch(configuration, server);
+                var database = DbContextFactory.CreateApplicationDbContext(configuration.ConnectionString);
+
+                //Setting universe ticking time
+
+                if (database.GlobalData.Where(x => x.Name == "SecondsPerMinute").FirstOrDefault().Value == null) {
+                    Log.Fatal("No timedelay found!");
+                    throw new TimeZoneNotFoundException();
+                }
+                var timedelay = int.Parse(database.GlobalData.Where(x => x.Name == "SecondsPerMinute").FirstOrDefault().Value) * 1000;
+                if (timedelay <= 1000) {
+                    //You don't want to have 1 sec = 1 minute ingame
+                    Log.Fatal("Timedelay is too short! Setting to default.");
+                    timedelay = 60000;
+                }
+                long lastTick = 0;
+                var tickcounter = 0;
+#if DEBUG
+                timedelay = 5000;
+#endif
                 networkDispatch.ResolveHandlers();
                 Log.Debug("Server is running...");
                 var isRunning = true;
-                chronos = new Thread(new ThreadStart(() => PersistentUniverse.DoTick(configuration.ConnectionString)));
-                chronos.Start();
                 while (isRunning) {
                     isRunning = server.Server.Active;
                     while (server.Server.GetNextMessage(out var msg)) {
@@ -65,9 +83,16 @@ namespace Starlight.Server
                                 break;
                         }
                     }
+
+                    if (DateTime.UtcNow.Ticks > lastTick + timedelay * 10000) {
+                        Log.Debug("tps: " + (tickcounter / (timedelay / 1000)));
+                        lastTick = DateTime.UtcNow.Ticks;
+                        tickcounter = 0;
+                        PersistentUniverse.DoTick(database);
+                    }
+                    tickcounter++;
                     Thread.Sleep(1);
                 }
-                chronos.Abort();
             }
             catch (Exception e) {
                 Log.Fatal(e, "Error found in Main Loop");
