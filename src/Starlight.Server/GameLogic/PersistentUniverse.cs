@@ -3,6 +3,7 @@ using Starlight.Models;
 using Starlight.Server.Data;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Starlight.Server.GameLogic
 {
@@ -67,10 +68,33 @@ namespace Starlight.Server.GameLogic
 
             var nameofmonth = database.GlobalConstellation.Where(x => x.Sattelite == 0 && x.Series <= clock.Month).OrderByDescending(x => x.Series).FirstOrDefault();
 
-            Log.Debug("Today is: " + clock.Day + " " + nameofmonth.Name + " " + clock.Year + " " + clock.Hour.ToString("00") + ":" + clock.Minute.ToString("00") + ":00 ");
+            Log.Debug("Today is: " + clock.Day + " " + nameofmonth.Name + " " + clock.Year + " " + clock.Hour.ToString("00") + ":" + clock.Minute.ToString("00") + ":00 " + "The moon is: " + GetConstellationName(database,1,clock));
             DoTimedEvents(database, clock);
             database.Clock.Update(clock);
             database.SaveChanges();
+        }
+
+        public static string GetConstellationName(ApplicationDbContext database, uint moonId) {
+            var clock = database.Clock.FirstOrDefault();
+            return GetConstellationName(database, moonId, clock);
+        }
+
+        public static string GetConstellationName(ApplicationDbContext database, uint moonId, Clock clock) {
+            var creationyear = uint.Parse(database.GlobalData.Where(x => x.Name == "CreationYear").FirstOrDefault().Value);
+            var dayspermonth = uint.Parse(database.GlobalData.Where(x => x.Name == "DaysPerMonth").FirstOrDefault().Value);
+            var hourperdays = uint.Parse(database.GlobalData.Where(x => x.Name == "HoursPerDay").FirstOrDefault().Value);
+            var minutesperhour = uint.Parse(database.GlobalData.Where(x => x.Name == "MinutesPerHour").FirstOrDefault().Value);
+            var maxmonths = database.GlobalConstellation.Where(x => x.Sattelite == 0).Max(x => x.Series);
+            var elapsedDays = ((clock.Year - creationyear)* dayspermonth*maxmonths)+(clock.Month * dayspermonth + clock.Day);
+
+            var maxmoon = database.GlobalConstellation.Where(x => x.Sattelite == moonId).Max(x => x.Series);
+            if (maxmoon <= 0)
+                {
+                return null;
+            }
+            var test = elapsedDays % maxmoon + 1;
+            var moonname = database.GlobalConstellation.Where(x => x.Sattelite == moonId && x.Series <= test).OrderByDescending(x => x.Series).First();
+            return moonname.Name;
         }
 
         internal static void DoTimedEvents(ApplicationDbContext database, Clock clock) {
