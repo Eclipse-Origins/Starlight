@@ -68,10 +68,48 @@ namespace Starlight.Server.GameLogic
 
             var nameofmonth = database.GlobalConstellation.Where(x => x.Sattelite == 0 && x.Series <= clock.Month).OrderByDescending(x => x.Series).FirstOrDefault();
 
-            Log.Debug("Today is: " + clock.Day + " " + nameofmonth.Name + " " + clock.Year + " " + clock.Hour.ToString("00") + ":" + clock.Minute.ToString("00") + ":00 " + "The moon is: " + GetConstellationName(database,1,clock));
+            Log.Debug("Today is: " + clock.Day + " " + nameofmonth.Name + " " + clock.Year + " " + clock.Hour.ToString("00") + ":" + clock.Minute.ToString("00") + ":00 " + "The moon is: " + GetConstellationName(database,1,clock) + " Sunstrength: "+ GetSunLight(database));
             DoTimedEvents(database, clock);
             database.Clock.Update(clock);
             database.SaveChanges();
+        }
+
+        public static float GetSunLight(ApplicationDbContext database) {
+            var clock = database.Clock.FirstOrDefault();
+            return GetSunLight(database,clock);
+        }
+
+        public static float GetSunLight(ApplicationDbContext database, Clock clock) {
+            var duskhours = uint.Parse(database.GlobalData.Where(x => x.Name == "DuskHours").FirstOrDefault().Value);
+            var hourperdays = uint.Parse(database.GlobalData.Where(x => x.Name == "HoursPerDay").FirstOrDefault().Value);
+            var minutesperhour = uint.Parse(database.GlobalData.Where(x => x.Name == "MinutesPerHour").FirstOrDefault().Value);
+            var duskTimeStart = (hourperdays / 4) - duskhours / 2;
+            var duskTimeEnd = duskTimeStart + duskhours;
+            if (duskhours == 0) {
+                duskTimeStart = (hourperdays / 4);
+                duskTimeEnd = duskTimeStart;
+            };
+            if (clock.Hour < duskTimeStart)
+            {
+                return 0;
+            }
+            else if (clock.Hour < duskTimeEnd)
+                {
+                var currentDuskTime = clock.Hour * minutesperhour + clock.Minute;
+                return (float)currentDuskTime / (float)(duskTimeEnd*minutesperhour);
+            }
+            else if (clock.Hour >= (hourperdays - duskTimeEnd)) {
+                var currentDuskTime = (hourperdays - clock.Hour - duskTimeEnd) * minutesperhour + clock.Minute;
+                var currentLightLevel = 1- (float)currentDuskTime / (float)(duskhours * minutesperhour);
+                return currentLightLevel;
+
+            } else if (clock.Hour >= duskTimeEnd) {
+                return 1;
+            }
+            else if (clock.Hour >= (hourperdays - duskTimeStart)) {
+                return 0;
+            }
+            return -1;
         }
 
         public static string GetConstellationName(ApplicationDbContext database, uint moonId) {
