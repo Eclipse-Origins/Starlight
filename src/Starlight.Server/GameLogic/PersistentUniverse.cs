@@ -100,7 +100,7 @@ namespace Starlight.Server.GameLogic
             }
             else if (clock.Hour >= (hourperdays - duskTimeEnd)) {
                 var currentDuskTime = (hourperdays - clock.Hour - duskTimeEnd) * minutesperhour + clock.Minute;
-                var currentLightLevel = 1- (float)currentDuskTime / (float)(duskhours * minutesperhour);
+                var currentLightLevel = 1 - (float)currentDuskTime / (float)(duskhours * minutesperhour);
                 return currentLightLevel;
 
             } else if (clock.Hour >= duskTimeEnd) {
