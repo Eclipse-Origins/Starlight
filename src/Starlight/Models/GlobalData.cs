@@ -32,6 +32,10 @@ namespace Starlight.Models
             data.Name = "SecondsPerMinute";
             data.Value = "60";
             globaldata.Add(data);
+            data = new GlobalData();
+            data.Name = "DuskHours";
+            data.Value = "2";
+            globaldata.Add(data);
             return globaldata.ToArray();
         }
     }
