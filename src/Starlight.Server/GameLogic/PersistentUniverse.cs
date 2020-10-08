@@ -97,6 +97,9 @@ namespace Starlight.Server.GameLogic
                 {
                 var currentDuskTime = clock.Hour * minutesperhour + clock.Minute;
                 return (float)currentDuskTime / (float)(duskTimeEnd*minutesperhour);
+            } 
+            else if (clock.Hour >= (hourperdays - duskTimeStart)) {
+                return 0;
             }
             else if (clock.Hour >= (hourperdays - duskTimeEnd)) {
                 var currentDuskTime = (hourperdays - clock.Hour - duskTimeEnd) * minutesperhour + clock.Minute;
@@ -105,9 +108,6 @@ namespace Starlight.Server.GameLogic
 
             } else if (clock.Hour >= duskTimeEnd) {
                 return 1;
-            }
-            else if (clock.Hour >= (hourperdays - duskTimeStart)) {
-                return 0;
             }
             return -1;
         }
