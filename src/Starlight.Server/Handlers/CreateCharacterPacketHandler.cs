@@ -5,6 +5,7 @@ using Starlight.Models;
 using Starlight.Packets;
 using Starlight.Server.Handlers.Core;
 using Starlight.Server.Network;
+using Starlight.Server.Security;
 using Starlight.Translations;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,19 @@ namespace Starlight.Server.Handlers
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Id == requestContext.User.Id)
                                                      .FirstOrDefault();
+
+            if (!DenyList.Instance.Sanitize(packet.Name.Trim()).Equals(packet.Name.Trim())) {
+                Log.Warning("[" + requestContext.ConnectionId + "] Hack attempt! Sanitized charactername!");
+            }
+
+            packet.Name = DenyList.Instance.Sanitize(packet.Name.Trim());
             Log.Information("[" + requestContext.ConnectionId + "] Creating character " + packet.Name);
+
+            if (DenyList.Instance.CheckDenied(packet.Name)) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("CreateCharacter.AccountBanned"));
+                requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(false, TranslationManager.Instance.Translate("CreateCharacter.AccountBanned")));
+                return;
+            }
 
             if (user == null) {
                 Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("CreateCharacter.AccountNotFound"));
