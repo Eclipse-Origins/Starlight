@@ -34,6 +34,10 @@ namespace Starlight.Client
 
         public ScreenContainer ScreenContainer { get; }
 
+        public string server { get; private set; }
+        public int port { get; private set; }
+        public string language { get; set; }
+
         public StarlightGame(string workingDirectory) {
             this.graphics = new GraphicsDeviceManager(this);
 
@@ -50,8 +54,6 @@ namespace Starlight.Client
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            Debugging.UIDebugging = true;
         }
 
         protected override void Initialize() {
@@ -63,7 +65,7 @@ namespace Starlight.Client
         protected override void LoadContent() {
             base.LoadContent();
 
-            TranslationManager.Instance.ImportFromDocument(this.ResourceLocator.LocateContentPath("Languages", "en-us.json"));
+            TranslationManager.Instance.ImportFromDocument(this.ResourceLocator.LocateContentPath("Languages", language + ".json"));
 
             var spriteBatch = new SpriteBatch(GraphicsDevice);
             RenderContext = new RenderContext(GraphicsDevice, spriteBatch);
@@ -75,7 +77,14 @@ namespace Starlight.Client
         }
 
         public void Connect() {
-            NetworkClient.Client.Connect("localhost", 1338);
+            Log.Debug("Connecting to " + server + ":" + port);
+            NetworkClient.Client.Connect(server,port);
+        }
+        
+        public void Connect(string address, int port) {
+            this.port = port;
+            this.server = address;
+            this.Connect();
         }
 
         protected override void Update(GameTime gameTime) {
