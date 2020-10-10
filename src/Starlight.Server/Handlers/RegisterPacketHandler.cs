@@ -17,9 +17,17 @@ namespace Starlight.Server.Handlers
     public class RegisterPacketHandler : AbstractPacketHandler<RegisterPacket>
     {
         public override void HandlePacket(RequestContext requestContext, RegisterPacket packet) {
-            // TODO: Whitelist allowed characters
+            if (!DenyList.Instance.Sanitize(packet.Username.Trim()).Equals(packet.Username.Trim())) {
+                Log.Warning("[" + requestContext.ConnectionId + "] Hack attempt! Sanitized username!");
+            }
+            packet.Username = DenyList.Instance.Sanitize(packet.Username.Trim());
             Log.Information("[" + requestContext.ConnectionId + "] Creating user " + packet.Username);
-            packet.Username = packet.Username.Trim();
+
+            if (DenyList.Instance.CheckDenied(packet.Username)) {
+                Log.Error("[" + requestContext.ConnectionId + "] " + TranslationManager.Instance.Translate("Register.AccountBanned"));
+                requestContext.Server.SendPacket(requestContext.ConnectionId, new RegistrationResultPacket(false, TranslationManager.Instance.Translate("Register.AccountBanned")));
+                return;
+            }
 
             var user = requestContext.DbContext.Users.Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
             if (user != null) {

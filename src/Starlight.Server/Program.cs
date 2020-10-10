@@ -14,6 +14,7 @@ using Starlight.Server.GameLogic;
 using Starlight.Server.Data;
 using System.Linq;
 using System.CommandLine.DragonFruit;
+using Starlight.Server.Security;
 
 namespace Starlight.Server
 {
@@ -26,10 +27,12 @@ namespace Starlight.Server
         /// <param name="config">Location of the configuration file</param>
         static void Main(bool debug = false, string config = "config.json") {
             var server = new StarlightServer(new Telepathy.Server());
+
 #if DEBUG
             debug = true;
             config = "config.development.json";
 #endif
+
             try {
                 var configuration = LoadConfiguration(config);
                 if (configuration.LogFile == null) {
@@ -54,8 +57,14 @@ namespace Starlight.Server
                 Log.Debug("Configuration loaded: \r\n" + configuration.ToString());
 
                 TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
+                DenyList.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "denylist.txt"));
                 Setup.RunSetup(configuration);
 
+                //Validate denylist
+                if (!DenyList.Instance.CheckDenied("root") || !DenyList.Instance.CheckDenied("admin") || !DenyList.Instance.CheckDenied("demo") || !DenyList.Instance.CheckDenied("sql") || !DenyList.Instance.CheckDenied("test") || !DenyList.Instance.CheckDenied("system")) {
+                    Log.Warning("Denylist is incomplete or missing!");
+                }
+                
                 // start the server
                 server.Server.Start(configuration.Port);
 

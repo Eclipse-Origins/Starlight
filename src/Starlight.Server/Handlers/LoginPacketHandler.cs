@@ -16,6 +16,12 @@ namespace Starlight.Server.Handlers
     public class LoginPacketHandler : AbstractPacketHandler<LoginPacket>
     {
         public override void HandlePacket(RequestContext requestContext, LoginPacket packet) {
+
+            if (!DenyList.Instance.Sanitize(packet.Username.Trim()).Equals(packet.Username.Trim())) {
+                Log.Warning("[" + requestContext.ConnectionId + "] Hack attempt! Sanitized username!");
+            }
+
+            packet.Username = DenyList.Instance.Sanitize(packet.Username.Trim());
             var user = requestContext.DbContext.Users.Include(x => x.Characters)
                                                      .Where(x => x.Username.ToLower() == packet.Username.ToLower()).FirstOrDefault();
             Log.Information("[" + requestContext.ConnectionId + "] Login as user " + packet.Username);
