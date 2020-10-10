@@ -13,6 +13,7 @@ using System.Reflection;
 using Starlight.Server.GameLogic;
 using Starlight.Server.Data;
 using System.Linq;
+using Starlight.Server.Security;
 
 namespace Starlight.Server
 {
@@ -20,7 +21,7 @@ namespace Starlight.Server
     {
         static void Main(string[] args) {
             var server = new StarlightServer(new Telepathy.Server());
-            
+
             try {
                 var configuration = LoadConfiguration();
                 if (configuration.LogFile == null) {
@@ -40,8 +41,14 @@ namespace Starlight.Server
                 Log.Information("Starlight Server " + Assembly.GetEntryAssembly().GetName().Version.ToString());
 
                 TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
+                DenyList.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "denylist.txt"));
                 Setup.RunSetup(configuration);
 
+                //Validate denylist
+                if (!DenyList.Instance.CheckDenied("root") || !DenyList.Instance.CheckDenied("admin") || !DenyList.Instance.CheckDenied("demo") || !DenyList.Instance.CheckDenied("sql") || !DenyList.Instance.CheckDenied("test") || !DenyList.Instance.CheckDenied("system")) {
+                    Log.Warning("Denylist is incomplete or missing!");
+                }
+                
                 // start the server
                 server.Server.Start(configuration.Port);
 

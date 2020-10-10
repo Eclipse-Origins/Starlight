@@ -1,15 +1,17 @@
 {
-    "Register": {
-        "AccountExists": "Account already exists.",
-        "AccountCreated": "Account has been created."
-    },
+  "Register": {
+    "AccountBanned": "This name is reserved or banned.",
+    "AccountExists": "Account already exists.",
+    "AccountCreated": "Account has been created."
+  },
     "Login": {
         "InvalidUsernamePassword": "Invalid username or password."
     },
     "CreateCharacter": {
         "AccountNotFound": "Account not found.",
         "SlotNotEmpty": "This character slot is not empty!",
-        "CharacterNameTaken": "This character name has already been taken."
+        "CharacterNameTaken": "This character name has already been taken.",
+        "AccountBanned": "This name is reserved or banned."
     },
     "DeleteCharacter": {
         "AccountNotFound": "Account not found.",
