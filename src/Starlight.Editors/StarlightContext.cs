@@ -28,12 +28,12 @@ namespace Starlight.Editors
             this.NetworkDispatch.ResolveHandlers();
         }
 
-        public void LoadContent() {
-            TranslationManager.Instance.ImportFromDocument(Path.Combine(WorkingDirectory, "Content", "Languages", "en-us.json"));
+        public void LoadContent(string language) {
+            TranslationManager.Instance.ImportFromDocument(Path.Combine(WorkingDirectory, "Content", "Languages", language + ".json"));
         }
 
-        public void Connect() {
-            this.NetworkClient.Client.Connect("localhost", 1338);
+        public void Connect(string server, int port = 1338) {
+            this.NetworkClient.Client.Connect(server, port);
         }
     }
 }

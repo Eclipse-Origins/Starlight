@@ -13,32 +13,48 @@ using System.Reflection;
 using Starlight.Server.GameLogic;
 using Starlight.Server.Data;
 using System.Linq;
+using System.CommandLine.DragonFruit;
 using Starlight.Server.Security;
 
 namespace Starlight.Server
 {
     class Program
     {
-        static void Main(string[] args) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="debug">To turn debugging on or off</param>
+        /// <param name="config">Location of the configuration file</param>
+        static void Main(bool debug = false, string config = "config.json") {
             var server = new StarlightServer(new Telepathy.Server());
 
+#if DEBUG
+            debug = true;
+            config = "config.development.json";
+#endif
+
             try {
-                var configuration = LoadConfiguration();
+                var configuration = LoadConfiguration(config);
                 if (configuration.LogFile == null) {
                     configuration.LogFile = "server.log";
                 };
                 Log.Logger = (ILogger)new LoggerConfiguration()
                 .WriteTo.Console()
                 .WriteTo.File(path: configuration.LogFile, rollingInterval: RollingInterval.Day)
-#if DEBUG
-                .MinimumLevel.Verbose()
-#endif
+                .MinimumLevel.Information()
                 .CreateLogger();
+                if (debug) {
+                    Log.Logger = (ILogger)new LoggerConfiguration()
+                    .WriteTo.Console()
+                    .WriteTo.File(path: configuration.LogFile, rollingInterval: RollingInterval.Day)
+                    .MinimumLevel.Debug()
+                    .CreateLogger();
+                }
                 if (configuration.ConnectionString == null || configuration.Port == 0) {
                     throw new IOException("No valid configuration found!");
                 }
-                Log.Debug("Configuration loaded: \r\n" + configuration.ToString());
                 Log.Information("Starlight Server " + Assembly.GetEntryAssembly().GetName().Version.ToString());
+                Log.Debug("Configuration loaded: \r\n" + configuration.ToString());
 
                 TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
                 DenyList.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "denylist.txt"));
@@ -69,9 +85,6 @@ namespace Starlight.Server
                 }
                 long lastTick = 0;
                 var tickcounter = 0;
-#if DEBUG
-                timedelay = 5000;
-#endif
                 networkDispatch.ResolveHandlers();
                 Log.Debug("Server is running...");
                 var isRunning = true;
@@ -109,20 +122,13 @@ namespace Starlight.Server
             Log.CloseAndFlush();
         }
 
-        private static Configuration LoadConfiguration() {
-#if DEBUG
-            var configPath = "config.development.json";
-#else
-            var configPath = "config.json";
-#endif
+        private static Configuration LoadConfiguration(string configPath = "config.json") {
             try {
-                return Configuration.Read(configPath); 
+                return Configuration.Read(configPath);
             }
-            catch (IOException)
-            {
+            catch (IOException) {
                 return new Configuration();
             }
         }
-
     }
 }
