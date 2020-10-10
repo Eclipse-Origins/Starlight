@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Starlight.Models.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Starlight.Models
 {
-    public class Clock : CoreDataModel {
+    public class Clock : CoreDataModel
+    {
         public uint Year { get; set; }
         public uint Month { get; set; }
         public uint Day { get; set; }

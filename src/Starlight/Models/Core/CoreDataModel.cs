@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Starlight.Models
+namespace Starlight.Models.Core
 {
     public class CoreDataModel : CoreModel
     {

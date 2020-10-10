@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Starlight.Client.Rendering;
+using Starlight.Client.State;
 using Starlight.Client.UI;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Starlight.Client.Screens.Core
         void PrepareResources(GraphicsDevice graphicsDevice);
 
         void Layout();
-        void Update(GameTime gameTime);
+        void Update(GameUpdateState state);
         void RenderBackgroundFrame(RenderContext renderContext);
         void RenderForegroundFrame(RenderContext renderContext);
     }

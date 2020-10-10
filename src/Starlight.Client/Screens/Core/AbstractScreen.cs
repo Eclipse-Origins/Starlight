@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D.UI.Styles;
 using Starlight.Client.Rendering;
+using Starlight.Client.State;
 using Starlight.Client.UI;
 using Starlight.Translations;
 using System;
@@ -70,7 +71,7 @@ namespace Starlight.Client.Screens.Core
         public virtual void PrepareResources(GraphicsDevice graphicsDevice) {
         }
 
-        public virtual void Update(GameTime gameTime) {
+        public virtual void Update(GameUpdateState state) {
         }
 
         public void RenderBackgroundFrame(RenderContext renderContext) {

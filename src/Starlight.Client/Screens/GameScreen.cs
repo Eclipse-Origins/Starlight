@@ -18,16 +18,35 @@ namespace Starlight.Client.Screens
         public GameScreen(ScreenContext screenContext) : base(screenContext) {
         }
 
+        public override void Update(GameUpdateState state) {
+            base.Update(state);
+
+            var character = Player.Instance.Character;
+
+            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down)) {
+                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y + 2);
+            }
+            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up)) {
+                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y - 2);
+            }
+            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right)) {
+                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X + 2, character.State.Offset.Y);
+            }
+            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) {
+                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X - 2, character.State.Offset.Y);
+            }
+        }
+
         protected override void OnRenderBackgroundFrame(RenderContext renderContext) {
             base.OnRenderBackgroundFrame(renderContext);
 
             renderContext.SpriteBatch.FillRectangle(0, 0, Context.Game.GraphicsDevice.Viewport.Width, Context.Game.GraphicsDevice.Viewport.Height, Color.Black);
 
-            var sprite = Player.Instance.Character.Sprite;
+            var character = Player.Instance.Character;
 
-            var spriteTexture = Context.ResourceCache.LoadTexture2D(Context.ResourceLocator.LocateAssetPath("Sprites", $"{sprite}.png"));
+            var spriteTexture = Context.ResourceCache.LoadTexture2D(Context.ResourceLocator.LocateAssetPath("Sprites", $"{character.Sprite}.png"));
 
-            renderContext.SpriteBatch.Draw(spriteTexture, new Vector2(0, 0), Color.White);
+            renderContext.SpriteBatch.Draw(spriteTexture, new Vector2(character.State.Offset.X, character.State.Offset.Y), new Rectangle(0, 0, 32, 50), Color.White);
         }
     }
 }

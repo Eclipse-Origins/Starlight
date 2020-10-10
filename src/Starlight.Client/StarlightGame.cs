@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Myra;
 using Serilog;
 using Starlight.Client.Network;
@@ -7,6 +8,7 @@ using Starlight.Client.Rendering;
 using Starlight.Client.Resources;
 using Starlight.Client.Screens;
 using Starlight.Client.Screens.Core;
+using Starlight.Client.State;
 using Starlight.Network;
 using Starlight.Translations;
 using System;
@@ -99,8 +101,13 @@ namespace Starlight.Client
                 Connect();
             }
 
+            var keyboardState = Keyboard.GetState();
+            var mouseState = Mouse.GetState();
+
+            var gameUpdateState = new GameUpdateState(gameTime, keyboardState, mouseState);
+
             if (ScreenContainer.HasActiveScreen) {
-                ScreenContainer.Screen.Update(gameTime);
+                ScreenContainer.Screen.Update(gameUpdateState);
             }
         }
 
