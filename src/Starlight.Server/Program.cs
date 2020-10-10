@@ -35,7 +35,7 @@ namespace Starlight.Server
 
             try {
                 var configuration = LoadConfiguration(config);
-                if (configuration.LogFile == null) {
+                if (string.IsNullOrEmpty(configuration.LogFile)) {
                     configuration.LogFile = "server.log";
                 };
                 Log.Logger = (ILogger)new LoggerConfiguration()
@@ -50,7 +50,7 @@ namespace Starlight.Server
                     .MinimumLevel.Debug()
                     .CreateLogger();
                 }
-                if (configuration.ConnectionString == null || configuration.Port == 0) {
+                if (string.IsNullOrEmpty(configuration.ConnectionString) || configuration.Port == 0) {
                     throw new IOException("No valid configuration found!");
                 }
                 Log.Information("Starlight Server " + Assembly.GetEntryAssembly().GetName().Version.ToString());
@@ -58,13 +58,14 @@ namespace Starlight.Server
 
                 TranslationManager.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Languages", "en-us.json"));
                 DenyList.Instance.ImportFromDocument(Path.Combine(Directory.GetCurrentDirectory(), "denylist.txt"));
+
                 Setup.RunSetup(configuration);
 
                 //Validate denylist
                 if (!DenyList.Instance.CheckDenied("root") || !DenyList.Instance.CheckDenied("admin") || !DenyList.Instance.CheckDenied("demo") || !DenyList.Instance.CheckDenied("sql") || !DenyList.Instance.CheckDenied("test") || !DenyList.Instance.CheckDenied("system")) {
                     Log.Warning("Denylist is incomplete or missing!");
                 }
-                
+
                 // start the server
                 server.Server.Start(configuration.Port);
 
@@ -113,8 +114,7 @@ namespace Starlight.Server
                     tickcounter++;
                     Thread.Sleep(1);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.Fatal(e, "Error found in Main Loop");
             }
             Log.Information("Stopping server...");
@@ -122,11 +122,10 @@ namespace Starlight.Server
             Log.CloseAndFlush();
         }
 
-        private static Configuration LoadConfiguration(string configPath = "config.json") {
+        private static Configuration LoadConfiguration(string configPath) {
             try {
                 return Configuration.Read(configPath);
-            }
-            catch (IOException) {
+            } catch (IOException) {
                 return new Configuration();
             }
         }

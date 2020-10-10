@@ -29,7 +29,7 @@ namespace Starlight.Editors
         }
 
         public void LoadContent(string language) {
-            TranslationManager.Instance.ImportFromDocument(Path.Combine(WorkingDirectory, "Content", "Languages", language + ".json"));
+            TranslationManager.Instance.ImportFromDocument(Path.Combine(WorkingDirectory, "Content", "Languages", $"{language}.json"));
         }
 
         public void Connect(string server, int port = 1338) {

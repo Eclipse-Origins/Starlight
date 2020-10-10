@@ -32,7 +32,7 @@ namespace Starlight.Client
             var workingDirectory = Directory.GetCurrentDirectory();
 
             using (var game = new StarlightGame(workingDirectory)) {
-                game.language = language;
+                game.Language = language;
                 game.Connect(server, port);
                 game.Run();
             }

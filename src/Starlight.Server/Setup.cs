@@ -12,17 +12,15 @@ namespace Starlight.Server
     public static class Setup
     {
         public static void RunSetup(Configuration configuration) {
-            
             var dbContext = DbContextFactory.CreateApplicationDbContext(configuration.ConnectionString);
             Log.Information("Updating database...");
             try {
                 dbContext.Database.Migrate();
-            }
-            catch (Exception e){
-                Log.Error(e,"Error encountered during update!");
+            } catch (Exception e) {
+                Log.Error(e, "Error encountered during update!");
                 return;
             };
-          
+
             if (!dbContext.Maps.Any()) {
                 Log.Information("Creating initial map.");
 
@@ -43,23 +41,20 @@ namespace Starlight.Server
                 Log.Information("Creating sun and moons");
 
                 var constellations = GlobalConstellation.Create();
-                foreach (var constellation in constellations) 
-                    {
-                        dbContext.GlobalConstellation.Add(constellation);
-                        dbContext.SaveChanges();
-                    }
+                foreach (var constellation in constellations) {
+                    dbContext.GlobalConstellation.Add(constellation);
+                }
             }
 
             if (!dbContext.GlobalData.Any()) {
                 Log.Information("Creating global data");
 
                 var database = GlobalData.Create();
-                foreach(var data in database) {
+                foreach (var data in database) {
                     dbContext.GlobalData.Add(data);
-                    dbContext.SaveChanges();
                 }
             }
-            
+
             if (!dbContext.Clock.Any()) {
                 Log.Information("Creating clock");
 
