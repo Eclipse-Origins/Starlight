@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -46,15 +47,44 @@ namespace Starlight.Server.Security
         }
 
         public void ImportFromDocument(string documentPath) {
-            using (var fileStream = new FileStream(documentPath, FileMode.Open)) {
-                using (var streamReader = new StreamReader(fileStream)) {
-                    string line = null;
-                    do{
-                        line = streamReader.ReadLine();
-                        if (line != null) {
-                            AddString(line);
+            try {
+                using (var fileStream = new FileStream(documentPath, FileMode.Open)) {
+                    using (var streamReader = new StreamReader(fileStream)) {
+                        string line = null;
+                        do {
+                            line = streamReader.ReadLine();
+                            if (line != null) {
+                                AddString(line);
+                            }
+                        } while (line != null);
+                    }
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                Log.Warning("Wordlist not found, creating...");
+                CreateDocument(documentPath);
+                ImportFromDocument(documentPath);
+            }
+        }
+
+        public void CreateDocument(string documentPath) {
+            //Defaults to check for when booting up
+            AddString("root");
+            AddString("admin");
+            AddString("demo");
+            AddString("sql");
+            AddString("test");
+            AddString("system");
+            using (var fileStream = new FileStream(documentPath, FileMode.Create)) {
+                using (var streamWriter = new StreamWriter(fileStream)) {
+                    foreach (string banname in strings) {
+                        if (banname != null) {
+                            streamWriter.WriteLine(banname);
                         }
-                    }while (line != null) ;
+                    }
+                    streamWriter.Flush();
+                    streamWriter.Close();
                 }
             }
         }
