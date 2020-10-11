@@ -36,7 +36,7 @@ namespace Starlight.Client.Screens
             surface = Texture2D.FromFile(graphicsDevice, Context.ResourceLocator.LocateAssetPath("Items", "1.png"));
         }
 
-        protected override void OnRenderForegroundFrame(Rendering.RenderContext renderContext) {
+        protected override void OnRenderForegroundFrame(IRenderContext renderContext) {
             renderContext.SpriteBatch.Draw(surface, new Microsoft.Xna.Framework.Vector2(300, y), Color.White);
         }
     }

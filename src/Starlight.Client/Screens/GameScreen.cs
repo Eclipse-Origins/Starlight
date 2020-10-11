@@ -3,6 +3,7 @@ using Myra;
 using Starlight.Client.Rendering;
 using Starlight.Client.Screens.Core;
 using Starlight.Client.State;
+using Starlight.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,7 +38,7 @@ namespace Starlight.Client.Screens
             }
         }
 
-        protected override void OnRenderBackgroundFrame(RenderContext renderContext) {
+        protected override void OnRenderBackgroundFrame(IRenderContext renderContext) {
             base.OnRenderBackgroundFrame(renderContext);
 
             renderContext.SpriteBatch.FillRectangle(0, 0, Context.Game.GraphicsDevice.Viewport.Width, Context.Game.GraphicsDevice.Viewport.Height, Color.Black);
@@ -46,7 +47,7 @@ namespace Starlight.Client.Screens
 
             var spriteTexture = Context.ResourceCache.LoadTexture2D(Context.ResourceLocator.LocateAssetPath("Sprites", $"{character.Sprite}.png"));
 
-            renderContext.SpriteBatch.Draw(spriteTexture, new Vector2(character.State.Offset.X, character.State.Offset.Y), new Rectangle(0, 0, 32, 50), Color.White);
+            renderContext.RenderSpriteAnimation(spriteTexture, character.State, character.Direction, new Vector2(32, 48), new Vector2(character.X + character.State.Offset.X, character.Y + character.State.Offset.Y));
         }
     }
 }

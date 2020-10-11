@@ -19,7 +19,7 @@ namespace Starlight.Client.Screens.Core
 
         void Layout();
         void Update(GameUpdateState state);
-        void RenderBackgroundFrame(RenderContext renderContext);
-        void RenderForegroundFrame(RenderContext renderContext);
+        void RenderBackgroundFrame(IRenderContext renderContext);
+        void RenderForegroundFrame(IRenderContext renderContext);
     }
 }

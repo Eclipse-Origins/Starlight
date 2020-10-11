@@ -74,18 +74,18 @@ namespace Starlight.Client.Screens.Core
         public virtual void Update(GameUpdateState state) {
         }
 
-        public void RenderBackgroundFrame(RenderContext renderContext) {
+        public void RenderBackgroundFrame(IRenderContext renderContext) {
             OnRenderBackgroundFrame(renderContext);
         }
 
-        protected virtual void OnRenderBackgroundFrame(RenderContext renderContext) {
+        protected virtual void OnRenderBackgroundFrame(IRenderContext renderContext) {
         }
 
-        public void RenderForegroundFrame(RenderContext renderContext) {
+        public void RenderForegroundFrame(IRenderContext renderContext) {
             OnRenderForegroundFrame(renderContext);
         }
 
-        protected virtual void OnRenderForegroundFrame(RenderContext renderContext) {
+        protected virtual void OnRenderForegroundFrame(IRenderContext renderContext) {
         }
 
         private void InitializeFromMarkup(StarlightGrid rootUI) {

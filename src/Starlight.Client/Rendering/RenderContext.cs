@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Starlight.Client.Rendering
 {
-    public class RenderContext
+    public class RenderContext : IRenderContext
     {
         public GraphicsDevice GraphicsDevice { get; }
         public SpriteBatch SpriteBatch { get; }

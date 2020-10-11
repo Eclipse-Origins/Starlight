@@ -1,4 +1,5 @@
 ﻿using Starlight.Models;
+using Starlight.Models.Contracts;
 using Starlight.Models.Core;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,12 @@ namespace Starlight.Models
 {
     public class Character : CoreDataModel, IDynamicStateModel<Character.DynamicState>
     {
-        public class DynamicState
+        public class DynamicState : IAnimationState
         {
             public Vector2 Offset { get; set; }
+
+            public int Frame { get; set; }
+            public TimeSpan FrameTransitionTime { get; set; }
         }
 
         [IgnoreDataMember]
@@ -20,6 +24,12 @@ namespace Starlight.Models
 
         public int Slot { get; set; }
         public string Name { get; set; }
+
+        public int MapId { get; set; }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Direction Direction { get; set; }
 
         public int Sprite { get; set; }
 
