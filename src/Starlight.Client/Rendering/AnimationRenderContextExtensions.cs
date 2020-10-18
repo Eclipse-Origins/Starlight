@@ -16,15 +16,15 @@ namespace Starlight.Client.Rendering
                 case Direction.Bottom:
                     animationRow = 0;
                     break;
-                case Direction.Left:
-                    animationRow = 1;
-                    break;
-                case Direction.Right:
-                    animationRow = 2;
-                    break;
                 case Direction.Top:
                     animationRow = 3;
                     break;
+            }
+
+            if (direction.HasFlag(Direction.Left)) {
+                animationRow = 1;
+            } else if (direction.HasFlag(Direction.Right)) {
+                animationRow = 2;
             }
 
             renderContext.RenderAnimation(texture, animationState, animationRow, frameSize, destination);

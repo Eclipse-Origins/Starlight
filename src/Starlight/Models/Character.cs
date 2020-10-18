@@ -13,6 +13,7 @@ namespace Starlight.Models
     {
         public class DynamicState : IAnimationState
         {
+            public Direction MotionDirection { get; set; }
             public Vector2 Offset { get; set; }
 
             public int Frame { get; set; }

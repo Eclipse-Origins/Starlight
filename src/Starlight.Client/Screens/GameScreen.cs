@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Myra;
+using Serilog;
 using Starlight.Client.Rendering;
 using Starlight.Client.Screens.Core;
 using Starlight.Client.State;
 using Starlight.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Starlight.Client.Screens
@@ -24,17 +26,56 @@ namespace Starlight.Client.Screens
 
             var character = Player.Instance.Character;
 
-            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down)) {
-                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y + 2);
-            }
-            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up)) {
-                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y - 2);
-            }
-            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right)) {
-                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X + 2, character.State.Offset.Y);
-            }
-            if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) {
-                character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X - 2, character.State.Offset.Y);
+            if (character.State.MotionDirection == Direction.None) {
+                var activeDirection = Direction.None;
+                if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down)) {
+                    activeDirection |= Direction.Bottom;
+                }
+                if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up)) {
+                    activeDirection |= Direction.Top;
+                }
+                if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right)) {
+                    activeDirection |= Direction.Right;
+                }
+                if (state.KeyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) {
+                    activeDirection |= Direction.Left;
+                }
+
+                if (activeDirection != Direction.None) {
+                    character.Direction = activeDirection;
+                    character.State.MotionDirection = activeDirection;
+                }
+            } else {
+                if (character.State.MotionDirection.HasFlag(Direction.Top)) {
+                    character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y - 2);
+                }
+                if (character.State.MotionDirection.HasFlag(Direction.Bottom)) {
+                    character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X, character.State.Offset.Y + 2);
+                }
+                if (character.State.MotionDirection.HasFlag(Direction.Right)) {
+                    character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X + 2, character.State.Offset.Y);
+                }
+                if (character.State.MotionDirection.HasFlag(Direction.Left)) {
+                    character.State.Offset = new System.Numerics.Vector2(character.State.Offset.X - 2, character.State.Offset.Y);
+                }
+
+                if (Math.Abs(character.State.Offset.X) >= Constants.TileSize || Math.Abs(character.State.Offset.Y) >= Constants.TileSize) {
+                    if (character.State.MotionDirection.HasFlag(Direction.Top)) {
+                        character.Y -= 1;
+                    }
+                    if (character.State.MotionDirection.HasFlag(Direction.Bottom)) {
+                        character.Y += 1;
+                    }
+                    if (character.State.MotionDirection.HasFlag(Direction.Right)) {
+                        character.X += 1;
+                    }
+                    if (character.State.MotionDirection.HasFlag(Direction.Left)) {
+                        character.X -= 1;
+                    }
+
+                    character.State.Offset = System.Numerics.Vector2.Zero;
+                    character.State.MotionDirection = Direction.None;
+                }
             }
         }
 
@@ -47,7 +88,7 @@ namespace Starlight.Client.Screens
 
             var spriteTexture = Context.ResourceCache.LoadTexture2D(Context.ResourceLocator.LocateAssetPath("Sprites", $"{character.Sprite}.png"));
 
-            renderContext.RenderSpriteAnimation(spriteTexture, character.State, character.Direction, new Vector2(32, 48), new Vector2(character.X + character.State.Offset.X, character.Y + character.State.Offset.Y));
+            renderContext.RenderSpriteAnimation(spriteTexture, character.State, character.Direction, new Vector2(32, 48), new Vector2((character.X * Constants.TileSize) + character.State.Offset.X, (character.Y * Constants.TileSize) + character.State.Offset.Y));
         }
     }
 }

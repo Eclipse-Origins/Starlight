@@ -3,25 +3,26 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <PublishReadyToRun>false</PublishReadyToRun>
-        <TieredCompilation>false</TieredCompilation>
 
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <PlatformTarget>x86</PlatformTarget>
+        <DocumentationFile></DocumentationFile>
+
+        <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Screens\CharacterCreationScreen.xml" />
-      <None Remove="Screens\CharacterSelectScreen.xml" />
-      <None Remove="Screens\MainMenuScreen.xml" />
-      <None Remove="Screens\SplashScreen.xml" />
+        <None Remove="Screens\CharacterCreationScreen.xml" />
+        <None Remove="Screens\CharacterSelectScreen.xml" />
+        <None Remove="Screens\MainMenuScreen.xml" />
+        <None Remove="Screens\SplashScreen.xml" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Screens\CharacterCreationScreen.xml" />
-      <EmbeddedResource Include="Screens\CharacterSelectScreen.xml" />
-      <EmbeddedResource Include="Screens\MainMenuScreen.xml" />
-      <EmbeddedResource Include="Screens\SplashScreen.xml" />
+        <EmbeddedResource Include="Screens\CharacterCreationScreen.xml" />
+        <EmbeddedResource Include="Screens\CharacterSelectScreen.xml" />
+        <EmbeddedResource Include="Screens\MainMenuScreen.xml" />
+        <EmbeddedResource Include="Screens\SplashScreen.xml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,12 +37,12 @@
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1375-develop" />
         <PackageReference Include="Myra" Version="1.0.0.205" />
         <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
-		<PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20371.2" />
+        <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20371.2" />
     </ItemGroup>
     <ItemGroup>
-      <None Update="Content\Languages\en-us.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="Content\Languages\en-us.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
